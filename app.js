@@ -7,6 +7,9 @@ const app           = express()
 // sequelize <<<<<<
 
 const admin = require("./routes/admin")
+const user = require("./routes/user")
+const institution = require("./routes/institution")
+
 
 
 // ******** configuracoes ******
@@ -48,8 +51,51 @@ app.post('/login', (req, res) => {
     res.send("pagina login")
 })
 
+/**
+ * entidades
+ * 
+ *                                user-group -----> groups -----> institutions
+ *                                  |               |               |
+ *                                  |               |               |
+ *                                  |               |               |
+ *                                  |               |               |
+ *                                  |               |               |
+ *  user_sociual_data             users      transactions       products
+ *
+ *  user-notification-clients
+ * 
+ * RESOURCES                    ACTION  ROUTE NAME
+ *  get     /user               index   user.index
+ *  post    /user               store   user.store
+ *  get     /user/create        create  user.create
+ *  get     /user/{user}        show    user.show
+ *  put     /user/{user}        update  user.update
+ *  delete  /user/{user}        destroy user.destroy
+ *  get     /user/{user}/edit   edit    user.edit
+ * 
+ * Resources(user, UsersController)
+ * get /user/moviment action:MovimentsController@index
+ *  
+ * Resources(instituition, instituitionsController)
+ * Resources(instituition/product, instituitionsController)
+ * 
+ * Resources(group, groupsController)
+ * post /group/{group_id}/user  action:GroupsController@userstore
+ * 
+ * 
+ * get /moviment action:MovimentsController@application
+ * post /moviment action:MovimentsController@storeApplication
+ * get /moviment/all action:MovimentsController@all
+ * 
+ * get /getback action:MovimentsController@getback
+ * post /getback action:MovimentsController@storeGetback
+ * 
+ * 
+ */
+
 
 app.use('/admin', admin)
+app.use('/user', user)
 
 
 //outros
