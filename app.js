@@ -6,9 +6,13 @@ const bodyParser    = require('body-parser')
 const app           = express()
 // sequelize <<<<<<
 
-const admin = require("./routes/admin")
-const user = require("./routes/user")
-const institution = require("./routes/institution")
+const admin         = require("./routes/admin")
+const user          = require("./routes/user")
+const institution   = require("./routes/institution")
+const product       = require("./routes/product")
+const group         = require("./routes/group")
+const moviment      = require("./routes/moviment")
+const getback       = require("./routes/getback")
 
 
 
@@ -96,6 +100,13 @@ app.post('/login', (req, res) => {
 
 app.use('/admin', admin)
 app.use('/user', user)
+app.use('/institution/product', product)
+app.use('/institution', institution)
+app.use('/group', group)
+app.use('/moviment', moviment)
+app.use('/getback', getback)
+
+
 
 
 //outros

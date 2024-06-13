@@ -29,4 +29,8 @@ router.get('/:id/edit', function(req, res){
     res.send("pagina GET de edicao de grupo" + req.params.id)
 })
 
+router.post('/:id/user', function(req, res){
+    res.send("pagina post do grupo " + req.params.id + " do usuario")
+})
+
 module.exports = router
