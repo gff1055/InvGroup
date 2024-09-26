@@ -4,7 +4,8 @@ const express       = require('express')
 const handlebars    = require('express-handlebars')
 const bodyParser    = require('body-parser')
 const app           = express()
-// sequelize <<<<<<
+const path          = require("path") // trabalhar com diretorios
+
 
 const admin         = require("./routes/admin")
 const user          = require("./routes/user")
@@ -33,6 +34,9 @@ app.engine('handlebars', handlebars.engine({
     }
 }));
 app.set('view engine', 'handlebars');
+
+//Public - arquivos estaticos
+app.use(express.static(path.join(__dirname, "public")))    // setando pasta public
 
 
 // rotas

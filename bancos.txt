@@ -1,0 +1,65 @@
+
+*Users
+id          int             pk
+cpf         char(11)        unico,pode ser nulo
+name        varchar(50)     
+phone       cahr(11)
+birth       date            pode ser nulo
+gender      char1           pode ser nulo
+notes       text            pode ser nulo
+email       varchar80       unico
+password    varchar255      
+status      varchar20       default('active')
+permission  varchar20       default('app.user')
+
+user_social_data(...)
+
+
+user_notification_clients(...)
+
+
+groups
+(PK) id int
+name varchar45
+(FK) user_id unsignedint
+(FK) institution_id unsignedint
+amount decimal(10,2)
+
+
+institutions
+(PK)id int
+name varchar45
+
+
+user-groups
+id              int
+user_id         int             fk
+group_id        int             fk
+permission      varchar(45)
+
+
+transactions
+type varchar10
+amount decimal(10,2)
+FK product_id varchar45
+FK group_id int
+FK user_id int
+(PK) id int
+
+
+products
+FK institution (unsigned)int
+PK id           int
+name            varchar45
+description     text
+interest_rate   decimal(10,2)
+indexer         text
+
+
+Moviment
+PK id           int
+FK user_id      int
+FK group_id     int
+FK product_id   int
+value           decimal
+type            integer

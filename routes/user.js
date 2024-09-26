@@ -2,7 +2,8 @@ const express = require("express")
 const router = express.Router()
 
 router.get('/', function(req, res){
-    res.send("pagina principal GET de users")
+    //es.send("pagina principal GET de users")
+    res.render("user/index")
 })
 
 router.post('/', function(req, res){
