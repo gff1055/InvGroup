@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const userService = require("../services/UserService")
 
 router.get('/', function(req, res){
     //es.send("pagina principal GET de users")
@@ -7,7 +8,9 @@ router.get('/', function(req, res){
 })
 
 router.post('/', function(req, res){
-    res.send("pagina principal POST de users")
+    console.log(req.body);
+    let msg = userService.store(req, res);
+    res.send("pagina principal POST de users" + msg)
 })
 
 router.get('/create', function(req, res){
