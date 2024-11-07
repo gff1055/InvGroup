@@ -130,6 +130,10 @@ section#conteudo-view form input[type="submit"]{
     background-color:#d8d8d8;
 }
 
+.view-conteudo{
+    padding-top: 1rem;
+}
+
 
 form.form-padrao label{
     float: left;

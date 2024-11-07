@@ -8,9 +8,18 @@ router.get('/', function(req, res){
 })
 
 router.post('/', function(req, res){
-    console.log(req.body);
-    let msg = userService.store(req, res);
-    res.send("pagina principal POST de users" + msg)
+    let varFunc = userService.store(req, res)
+        .then((answer) => {
+            console.log("dentro do console" + answer.success);
+            if(answer.success != true){
+                res.render("user/index", {feedback:answer})
+            }
+            else{
+                console.log("passou aqui " + answer.success)
+                req.flash("success_msg", "Usuario cadastrado!")
+                res.redirect("/user")
+            }
+        });
 })
 
 router.get('/create', function(req, res){
