@@ -3,6 +3,24 @@ const repository = require('../models/Users')
 
 const userService = {
 
+    formatCPF: function(cpf){
+        
+        //retira os caracteres indesejados...
+        cpf = cpf.replace(/[^\d]/g, "");
+
+        //realizar a formatação...
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    },
+
+    formatPhone: function(phone){
+        
+        //retira os caracteres indesejados...
+        phone = phone.replace(/[^\d]/g, "");
+
+        //realizar a formatação...
+        return phone.replace(/(\d{2})(\d{4})(\d{4})/, "($1)$2-$3");
+    },
+
     store: async function(req, res){
 
         var feedback = {
@@ -43,6 +61,21 @@ const userService = {
             feedback.success = false;
         }
         return feedback;
+    },
+
+
+    allData: async function(){
+        let users;
+        await repository.findAll().then(function(answer){
+            users = answer;
+            for(i = 0; i<users.length; i++){
+                users[i].cpf = userService.formatCPF(users[i].cpf);
+                users[i].phone = userService.formatPhone(users[i].phone);
+                console.log(userService.formatCPF(users[i].cpf));
+            }
+        })
+
+        return users;
     },
 
 

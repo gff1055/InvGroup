@@ -3,8 +3,12 @@ const router = express.Router()
 const userService = require("../services/UserService")
 
 router.get('/', function(req, res){
-    //es.send("pagina principal GET de users")
-    res.render("user/index")
+    
+    userService.allData().then((users) => {
+        /*console.log("USERS EM GET");console.log(users);*/
+        //es.send("pagina principal GET de users")
+    res.render("user/index", {users: users})
+    });    
 })
 
 router.post('/', function(req, res){

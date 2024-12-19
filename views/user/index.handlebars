@@ -23,7 +23,7 @@
     </nav>
     </div>
     
-    <div class="col view-conteudo">
+    <div class="col-10 view-conteudo">
             
         {{#each feedback.erros}}
             <div class="alert alert-danger">{{texto}}</div>
@@ -69,21 +69,39 @@
                     <input type="submit" value="Cadastrar">
                     </label>            
                 </div>
-
-
             </div>
-
-            
-           
-            <!--
-
-            input de cpf
-            input name
-            input phone
-            input email
-            password password
-            submit cadastrar
-            -->
         </form>
+
+        <table class="default-table">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>CPF</td>
+                    <td>Nome</td>
+                    <td>Telefone</td>
+                    <td>Nascimento</td>
+                    <td>E-mail</td>
+                    <td>Status</td>
+                    <td>Permissao</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each users}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{cpf}}</td>
+                        <td>{{name}}</td>
+                        <td>{{phone}}</td>
+                        <td>{{birth}}</td>
+                        <td>{{email}}</td>
+                        <td>{{status}}</td>
+                        <td>{{permission}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
+
+
 </div>
