@@ -24,7 +24,9 @@
     </div>
     
     <div class="col-10 view-conteudo">
-            
+
+        {{>_msg}}
+        
         {{#each feedback.erros}}
             <div class="alert alert-danger">{{texto}}</div>
         {{else}}
@@ -83,6 +85,7 @@
                     <td>E-mail</td>
                     <td>Status</td>
                     <td>Permissao</td>
+                    <td>Menu</td>
                 </tr>
             </thead>
 
@@ -97,6 +100,12 @@
                         <td>{{email}}</td>
                         <td>{{status}}</td>
                         <td>{{permission}}</td>
+                        <td>
+                            <form action="/user/delete" method="post">
+                                <input type="hidden" name="id" value={{id}}>
+                                <button>Remover</button>
+                            </form>                            
+                        </td>
                     </tr>
                 {{/each}}
             </tbody>

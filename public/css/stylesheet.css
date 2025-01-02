@@ -130,6 +130,14 @@ section#conteudo-view form input[type="submit"]{
     background-color:#d8d8d8;
 }
 
+.infront{
+    opacity: 0;
+    transition: opacity 1;
+    position: absolute;
+    z-index: 10;
+    width:100%;
+}
+
 .view-conteudo{
     padding-top: 1rem;
 }
