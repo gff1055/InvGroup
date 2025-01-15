@@ -106,7 +106,11 @@ const userService = {
         }
 
         // objeto sendo excluido....
-        await repository.destroy({where:{'id': req.body.id}})
+        await repository.destroy({
+            where:{
+                'id': req.body.id
+            }
+        })
 
         // havendo sucesso ou falha na exclusao, o objeto de feedback recebe o resultado
         .then(function(){

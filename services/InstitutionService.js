@@ -50,9 +50,28 @@ const institutionService = {
 
 
         // Objeto para enviar feedback
-        /*let feedback = {
+        let feedback = {
             erros: [],
-        }*/
+            success: false,
+            exception: false
+        }
+
+        // objeto sendo excluido...
+        await repository_institution.destroy({
+            where:{
+                'id': req.body.id
+            }
+        })
+
+        // havendo sucesso ou falha na exclusao, o objeto de feedback recebe o resultado
+        .then(function(){
+            feedback.success = true;
+        })
+        .catch(function(erro){
+            feedback.exception = true;
+        })
+
+        return feedback
     },
 
 };

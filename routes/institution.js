@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const institutionService = require("../services/InstitutionService")
 
+// rota inicial
 router.get('/', function(req, res){
     
     // funcao que retorna todos os dados
@@ -12,6 +13,9 @@ router.get('/', function(req, res){
     })
 })
 
+
+
+// rota post inicial
 router.post('/', function(req, res){
 
     // funcao para adicionar a instituicao é chamaada
@@ -31,6 +35,31 @@ router.post('/', function(req, res){
         })
 })
 
+
+
+router.post('/delete', function(req, res){
+
+    // chamando funcao para excluir o usuario
+    institutionService.destroy(req, res)
+
+    .then(function(answer){
+
+        // Se houve falha na exclusao, a pagina é renderizada novamente indicando o erro
+        if(answer.success != true){
+            res.render("institution/index", {feedback:answer})
+        }
+
+        // Se houver sucesso, a mensagem é exibida
+        else{
+            req.flash("success_msg", "Usuario excluido")
+            res.redirect("/institution")
+        }
+
+    })
+
+})
+
+
 router.get('/create', function(req, res){
     res.send("pagina GET de /create de institution")
 })
@@ -41,10 +70,6 @@ router.get('/:id', function(req, res){
 
 router.put('/:id', function(req, res){
     res.send("pagina PUT da instituicao" + req.params.id)
-})
-
-router.delete('/:id', function(req, res){
-    res.send("pagina DELETE da instituicao" + req.params.id)
 })
 
 router.get('/:id/edit', function(req, res){
