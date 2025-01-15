@@ -1,12 +1,34 @@
 const express = require("express")
 const router = express.Router()
+const institutionService = require("../services/InstitutionService")
 
 router.get('/', function(req, res){
-    res.send("pagina principal GET de instituition")
+    
+    // funcao que retorna todos os dados
+    institutionService.allData()
+    .then(function(institutions){
+        console.log(institutions);
+        res.render("institution/index", {institutions: institutions})
+    })
 })
 
 router.post('/', function(req, res){
-    res.send("pagina principal POST de instituition")
+
+    // funcao para adicionar a instituicao é chamaada
+    institutionService.store(req, res)
+        .then(function(answer){
+            
+            // Se houve falha na adicao, a pagina é renderizada novamente indicando o erro
+            if(answer.success != true){
+                res.render("institution/index", {feedback:answer})
+            }
+
+            // Se houver sucesso, a mensagem é exibida
+            else{
+                req.flash("success_msg","Instituicao cadastrada!")
+                res.redirect("/institution")
+            }
+        })
 })
 
 router.get('/create', function(req, res){

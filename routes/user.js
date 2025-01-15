@@ -5,8 +5,9 @@ const userService = require("../services/UserService")
 router.get('/', function(req, res){
     
     // funcao que retorna todos os dados
-    userService.allData().then((users) => {
-    res.render("user/index", {users: users})
+    userService.allData()
+    .then((users) => {
+        res.render("user/index", {users: users})
     });    
 })
 
@@ -26,7 +27,6 @@ router.post('/', function(req, res){
 
             // Se houver sucesso, a mensagem é exibida
             else{
-                console.log("passou aqui " + answer.success)
                 req.flash("success_msg", "Usuario cadastrado!")
                 res.redirect("/user")
             }

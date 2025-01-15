@@ -34,39 +34,13 @@
 
         <form method="post", class="form-padrao">
             <div class="row">
-                <div class="col-6">
-                    <label>
-                        <span>CPF</span>
-                        <input type="text" name="cpf" placeholder="CPF">
-                    </label>
-                </div>
-                 <div class="col-6">            
+                <div class="col-6">            
                     <label>
                         <span>Nome</span>
                         <input type="text" name="name" placeholder="Nome">
                     </label>
                 </div>
-                <div class="w-100"></div>
                 <div class="col-6">
-                    <label>
-                        <span>Phone</span>
-                        <input type="text" name="phone" placeholder="Phone">
-                    </label>
-                </div>
-                 <div class="col-6">            
-                    <label>
-                        <span>Email</span>
-                        <input type="text" name="email" placeholder="Email">
-                    </label>
-                </div>
-                <div class="w-100"></div>
-                                <div class="col-6">
-                    <label>
-                        <span>Password</span>
-                        <input type="password" name="password" placeholder="Password">
-                    </label>
-                </div>
-                 <div class="col-6">
                     <label class="submit">
                     <input type="submit" value="Cadastrar">
                     </label>            
@@ -78,30 +52,18 @@
             <thead>
                 <tr>
                     <td>#</td>
-                    <td>CPF</td>
                     <td>Nome</td>
-                    <td>Telefone</td>
-                    <td>Nascimento</td>
-                    <td>E-mail</td>
-                    <td>Status</td>
-                    <td>Permissao</td>
-                    <td>Menu</td>
+                    <td>opfções</td>
                 </tr>
             </thead>
 
             <tbody>
-                {{#each users}}
+                {{#each institutions}}
                     <tr>
                         <td>{{id}}</td>
-                        <td>{{cpf}}</td>
                         <td>{{name}}</td>
-                        <td>{{phone}}</td>
-                        <td>{{birth}}</td>
-                        <td>{{email}}</td>
-                        <td>{{status}}</td>
-                        <td>{{permission}}</td>
                         <td>
-                            <form action="/user/delete" method="post">
+                            <form action="/institution/delete" method="post">
                                 <input type="hidden" name="id" value={{id}}>
                                 <button>Remover</button>
                             </form>                            

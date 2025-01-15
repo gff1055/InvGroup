@@ -76,7 +76,8 @@ const userService = {
     /** Retorna todos os dados de usuarios */
     allData: async function(){
         let users;
-        await repository.findAll().then(function(answer){               // Todos os usuarios sao buscados
+        await repository.findAll().then(
+            function(answer){               // Todos os usuarios sao buscados
             users = answer;
 
             // Os CPF e telefones sao formatados para exibicao
