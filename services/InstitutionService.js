@@ -1,4 +1,4 @@
-const repository_institution = require('../models/Institution');
+const repository_institution = require('../models/Institutions');
 const { allData } = require('./UserService');
 
 const institutionService = {
