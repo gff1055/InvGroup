@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 router.get('/', function(req, res){
-    res.send("pagina principal GET de grupo")
+    res.render('groups/index');
 })
 
 router.post('/', function(req, res){
