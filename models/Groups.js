@@ -36,6 +36,6 @@ Groups.belongsTo(Institutions, {
     foreignKey: 'institution_id'
 });
 
-Groups.sync({force: true})
+//Groups.sync({force: true})
 
-// module.exports = Groups;
+module.exports = Groups;

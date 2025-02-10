@@ -1,8 +1,10 @@
 const express = require("express")
 const router = express.Router()
+const groupService = require("../services/GroupService")
 
 router.get('/', function(req, res){
-    res.render('groups/index');
+    groups = groupService.allData();
+    res.render('groups/index', {groups: groups});
 })
 
 router.post('/', function(req, res){
