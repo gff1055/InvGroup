@@ -8,7 +8,13 @@ router.get('/', function(req, res){
 })
 
 router.post('/', function(req, res){
+    /** fazer store aqui depois */
     res.send("pagina principal POST de grupo")
+})
+
+router.delete('/:id', function(req, res){
+    /** fazer destroi aqui */
+    res.send("pagina GET de /create de grupo")
 })
 
 router.get('/create', function(req, res){
@@ -21,10 +27,6 @@ router.get('/:id', function(req, res){
 
 router.put('/:id', function(req, res){
     res.send("pagina PUT de grupo" + req.params.id)
-})
-
-router.delete('/:id', function(req, res){
-    res.send("pagina DELETE de grupo" + req.params.id)
 })
 
 router.get('/:id/edit', function(req, res){
