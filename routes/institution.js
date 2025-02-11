@@ -51,7 +51,7 @@ router.post('/delete', function(req, res){
 
         // Se houver sucesso, a mensagem é exibida
         else{
-            req.flash("success_msg", "Usuario excluido")
+            req.flash("success_msg", "Instituição excluido")
             res.redirect("/institution")
         }
 

@@ -32,9 +32,26 @@ router.post('/', function(req, res){
 })
 
 router.post('/delete', function(req, res){
-   /* sçsd.#
-    /** fazer destroi aqui */
-    res.send("pagina GET de /create de grupo")
+
+
+    // chamando a funcao para xcluir o grupo
+    groupService.destroy(req, res)
+    .then(function(answer){
+
+        // Se houve falha na exclusao
+        // a pagina é renderizada indicando o erro
+
+        if(answer.success != true){
+            res.render("group/index", {feedback:answer})
+        }
+
+        // Se houver sucesso, a mensagem é exibida
+        else{
+            req.flash("success_msg", "Usuario excluido")
+            res.redirect("/group")
+        }
+    });
+   res.send("pagina GET de /create de grupo")
 })
 
 router.get('/create', function(req, res){
