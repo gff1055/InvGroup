@@ -43,7 +43,32 @@ const groupService = {
     },
 
 
-    destroy: function(){
-        
+    destroy: function(req, res){
+/*
+        // objeto para enviar feedback
+        let feedback = {
+            erros:[],
+            success: false,
+            exception: false
+        }
+
+        // objeto sendo excluido
+        await repository.destroy({
+            where:{
+                'id': req.body.id
+            }
+        })
+        .then(function(){
+            feedback.success = true;
+        })
+        .catch(function(erro){
+            feedback = true;
+        })
+
+        return feedback;*/
+
+
     },
-}
+};
+
+module.exports = groupService;

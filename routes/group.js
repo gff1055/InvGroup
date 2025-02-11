@@ -3,16 +3,36 @@ const router = express.Router()
 const groupService = require("../services/GroupService")
 
 router.get('/', function(req, res){
-    groups = groupService.allData();
+    /*groups = groupService.allData();*/
+    groups = 0;
     res.render('groups/index', {groups: groups});
 })
 
 router.post('/', function(req, res){
-    /** fazer store aqui depois */
-    res.send("pagina principal POST de grupo")
+    
+    // funcao para adicionar grupo é chamada
+
+    let varFunc = groupService.store(req, res)
+    .then((answer) => {
+
+        // Se houve falha na adicao, a pagina é renderizada novamente indicando o erro
+        if(answer.success != true){
+            res.render("groups/index", {feedback:answer})
+        }
+
+        // Se houver sucesso, a mensagem é exibida
+        else{
+            req.flash("success_msg", "Grupo cadastrado!")
+            res.redirect("/group")
+        }
+
+
+    })
+
 })
 
-router.delete('/:id', function(req, res){
+router.post('/delete', function(req, res){
+   /* sçsd.#
     /** fazer destroi aqui */
     res.send("pagina GET de /create de grupo")
 })
