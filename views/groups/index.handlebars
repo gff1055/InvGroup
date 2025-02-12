@@ -36,7 +36,7 @@
                 <div class="col-6">
                     <label>
                         <span>User</span>
-                        <input type="text" name="user_id" placeholder="User">
+                        <input type="select" name="user_id" placeholder="User">
                     </label>
                 </div>
 
@@ -44,7 +44,13 @@
                 <div class="col-6">
                     <label>
                         <span>Instituição</span>
-                        <input type="text" name="institution_id" placeholder="Instituição">
+                        <select name="institution_id">
+                            {{#each institutions}}
+                                <option value="1">1</option>
+                            {{else}}
+                                <option value="1">Nenhuma instituicao registrada</option>
+                            {{/each}}
+                        </select>
                     </label>
                 </div>
                 <div class="col-6">
