@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const groupService = require("../services/GroupService")
+const groupController = require("../controllers/GroupControllers")
 const userTemp = require("../models/Users")
 const instTemp = require("../models/Institutions")
 
@@ -34,8 +35,12 @@ router.get('/', function(req, res){
 })
 
 router.post('/', function(req, res){
+
+    groupController.store(req, res);
+
+
     
-    // funcao para adicionar grupo é chamada
+   /* // funcao para adicionar grupo é chamada
 
     let varFunc = groupService.store(req, res)
     .then((answer) => {
@@ -52,7 +57,7 @@ router.post('/', function(req, res){
         }
 
 
-    })
+    })*/
 
 })
 
