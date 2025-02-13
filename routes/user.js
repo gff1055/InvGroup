@@ -1,64 +1,15 @@
 const express = require("express")
 const router = express.Router()
 const userService = require("../services/UserService")
-
-router.get('/', function(req, res){
-    
-    // funcao que retorna todos os dados
-    userService.allData()
-    .then((users) => {
-        res.render("user/index", {users: users})
-    });    
-})
+let usersController = require("../controllers/UsersController")
 
 
 
+router.get('/', function(req, res){usersController.index(req, res)})
 
-router.post('/', function(req, res){
+router.post('/', function(req, res){usersController.store(req, res)})
 
-    // funcao para adicionar usuario é chamada
-    let varFunc = userService.store(req, res)
-        .then((answer) => {
-
-            // Se houve falha na adição, a pagina é renderizada novamente indicando o erro
-            if(answer.success != true){
-                res.render("user/index", {feedback:answer})
-            }
-
-            // Se houver sucesso, a mensagem é exibida
-            else{
-                req.flash("success_msg", "Usuario cadastrado!")
-                res.redirect("/user")
-            }
-        });
-})
-
-
-
-/** rota para excluir um usuario */
-router.post('/delete', function(req, res){
-
-    // chamando funcao para excluir o usuario
-    userService.destroy(req, res)
-    .then((answer)=>{
-
-        // Se houve falha na exclusao, a pagina é renderizada novamente indicando o erro
-        if(answer.success != true){
-            res.render("user/index", {feedback:answer})
-        }
-
-        // Se houver sucesso, a mensagem é exibida
-        else{
-            req.flash("success_msg", "Usuario excluido")
-            res.redirect("/user")
-        }
-    });
-})
-
-
-/*router.delete('/:id', function(req, res){
-    res.send("pagina DELETE do usuario" + req.params.id)
-})*/
+router.post('/delete', function(req, res){usersController.destroy(req, res)})
 
 router.get('/create', function(req, res){
     res.send("pagina GET de /create")
