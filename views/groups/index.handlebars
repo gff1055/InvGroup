@@ -35,8 +35,14 @@
                 </div>
                 <div class="col-6">
                     <label>
-                        <span>User</span>
-                        <input type="select" name="user_id" placeholder="User">
+                        <span>Usuario</span>
+                        <select name="user_id" class="custom-select">
+                            {{#each users}}
+                                <option value={{id}}>{{name}}</option>
+                            {{else}}
+                                <option value="1">Nenhum usuario registrado</option>
+                            {{/each}}
+                        </select>
                     </label>
                 </div>
 
@@ -44,11 +50,11 @@
                 <div class="col-6">
                     <label>
                         <span>Instituição</span>
-                        <select name="institution_id">
+                        <select name="institution_id" class="custom-select">
                             {{#each institutions}}
-                                <option value="1">1</option>
+                                <option value={{id}}>{{name}}</option>
                             {{else}}
-                                <option value="1">Nenhuma instituicao registrada</option>
+                                <option value="0">Nenhuma instituicao registrada</option>
                             {{/each}}
                         </select>
                     </label>

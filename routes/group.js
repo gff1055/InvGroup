@@ -1,11 +1,36 @@
 const express = require("express")
 const router = express.Router()
 const groupService = require("../services/GroupService")
+const userTemp = require("../models/Users")
+const instTemp = require("../models/Institutions")
 
 router.get('/', function(req, res){
+
+    let fUsers;
+    let fInstitutions;
+
+    userTemp.findAll({
+            attributes: ['id','name'],
+        })
+    .then(
+        function(users){
+            fUsers = users;
+            return instTemp.findAll({
+                attributes: ['id','name']
+            })
+    })
+    .then(function(institutions){
+        fInstitutions = institutions
+        groups = 0;
+        res.render('groups/index', {groups: groups, institutions: fInstitutions, users: fUsers});
+    })
+    .catch(function(error){
+        req.flash("error_msg", "Houve um erro ao carregar o formulario");
+        res.redirect("/group")
+    })
     /*groups = groupService.allData();*/
-    groups = 0;
-    res.render('groups/index', {groups: groups});
+    /*groups = 0;
+    res.render('groups/index', {groups: groups});*/
 })
 
 router.post('/', function(req, res){
