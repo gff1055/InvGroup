@@ -3,32 +3,42 @@ const repository = require('../models/Users') // model da tabela de usuarios
 
 const userService = {
 
-    /** Formata o CPF para cisualizacao */
     formatCPF: function(cpf){
+    /**
+     * funcao - formatar cpf adicionando pontos e hifens
+     * parametro - cpf inserido pelo usuario
+     * retorno - cpf formatado
+     */
         
-        //retira os caracteres indesejados...
         cpf = cpf.replace(/[^\d]/g, "");
+        //retira os caracteres indesejados...
 
-        //realizar a formatação...
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     },
 
 
 
-    /** Formata o telefone para visualizaca */
     formatPhone: function(phone){
-        
-        //retira os caracteres indesejados...
-        phone = phone.replace(/[^\d]/g, "");
+    /**
+     * funcao - formatar telefone
+     * parametro - telefone inserido pelo usuario
+     * retorno - telefone formatado
+     */
 
-        //realizar a formatação...
+        
+        phone = phone.replace(/[^\d]/g, "");
+        //retira os caracteres indesejados...
+
         return phone.replace(/(\d{2})(\d{4})(\d{4})/, "($1)$2-$3");
     },
 
     
-    /** Armazena o usuario no banco */
-    /** Retorna o resultado da execucao */
     store: async function(req, res){
+    /*Funcao - Cadastrar os usuarios
+     *Parametro - dados do usuario 
+     *retorno - objeto contendo o feedback 
+     */
+
 
         var feedback = {
             erros:[],
@@ -73,19 +83,25 @@ const userService = {
         return feedback;
     },
 
-    /** Retorna todos os dados de usuarios */
+    
+
     allData: async function(){
+   /**Funcao - Exibir todas os usuarios cadastrados
+     *retorno - objeto contendo todos os usuarios
+     */
+
         let users;
         await repository.findAll().then(
-            function(answer){               // Todos os usuarios sao buscados
-            users = answer;
+            function(answer){
+            // Todos os usuarios sao buscados
+                users = answer;
 
-            // Os CPF e telefones sao formatados para exibicao
-            for(i = 0; i<users.length; i++){
-                users[i].cpf = userService.formatCPF(users[i].cpf);
-                users[i].phone = userService.formatPhone(users[i].phone);
-            }
-        })
+                for(i = 0; i<users.length; i++){
+                // Os CPF e telefones sao formatados para exibicao
+                    users[i].cpf = userService.formatCPF(users[i].cpf);
+                    users[i].phone = userService.formatPhone(users[i].phone);
+                }
+            })
 
         return users;
     },
@@ -97,16 +113,20 @@ const userService = {
     
 
     destroy: async function(req, res){
-
-        // objeto para enviar feedback
+    /**
+     * Funcao - excluir um usuario
+     * parametro - dados do usuario a ser excluido
+     * retorno - objeto feedback com o resultado da operacao
+    */
+        
         let feedback = {
             erros:[],
             success: false,
             exception: false
         }
 
-        // objeto sendo excluido....
         await repository.destroy({
+        // objeto sendo excluido....
             where:{
                 'id': req.body.id
             }

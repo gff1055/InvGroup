@@ -4,6 +4,10 @@ const { allData } = require('./UserService');
 const institutionService = {
 
     store: async function(req, res){
+    /*Funcao - Cadastrar as instiruicoes
+     *Parametro - dados da instituicao 
+     *retorno - objeto contendo o feedback 
+     */
 
         var feedback = {
             erros: [],
@@ -25,8 +29,13 @@ const institutionService = {
 
     },
 
-    /** Retorna os dados da instituição */
+
+
     allData: async function(){
+    /**Funcao - Exibir todas as instituicões cadastradas
+     * retorno - objeto contendo todas as instituicoes
+    */
+
         let institutions;
 
         await repository_institution.findAll()
@@ -47,17 +56,22 @@ const institutionService = {
 
     
     destroy: async function(req, res){
+    /**
+     * Funcao - excluir uma instituicao
+     * parametro - dados da instituicao a ser excluida
+     * retorno - objeto feedback com o resultado da operacao
+     */
 
 
-        // Objeto para enviar feedback
         let feedback = {
+        // Objeto para enviar feedback
             erros: [],
             success: false,
             exception: false
         }
 
-        // objeto sendo excluido...
         await repository_institution.destroy({
+        // objeto sendo excluido...
             where:{
                 'id': req.body.id
             }
@@ -65,6 +79,7 @@ const institutionService = {
 
         // havendo sucesso ou falha na exclusao, o objeto de feedback recebe o resultado
         .then(function(){
+        
             feedback.success = true;
         })
         .catch(function(erro){

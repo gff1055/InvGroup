@@ -6,8 +6,8 @@ const userController = {
 
     index: function(req, res){
     
-        // funcao que retorna todos os dados
         userService.allData()
+        // retorna todos os dados de usuarios
         .then((users) => {
             res.render("user/index", {users: users})
         })
@@ -34,7 +34,7 @@ const userController = {
     },
 
 
-    
+
     destroy: function(req, res){
 
         // chamando funcao para excluir o usuario

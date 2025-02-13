@@ -5,8 +5,14 @@ const repository = require('../models/Groups')
 const groupService = {
 
     store: async function(req, res){
+    /*Funcao - Cadastrar os grupos
+     *Parametro - dados do grupo
+     *retorno - objeto contendo o feedback 
+     */
+
 
         var feedback = {
+        // objeto que mostra o feedback da operacap
             erros:[],
             success: false,
             exception: false
@@ -17,9 +23,6 @@ const groupService = {
             user_id: req.body.user_id,
             institution_id: req.body.institution_id
         }).then(function(){
-            console.log("name",req.body.name)
-            console.log("user id",req.body.user_id)
-            console.log("inst id",req.body.institution_id)
             feedback.success = true;
             console.log("FROM GROUPS feedback.success = true" + feedback.success);
         }).catch(function(){
