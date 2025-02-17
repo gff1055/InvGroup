@@ -76,6 +76,33 @@
                 </div>
             </div>
         </form>
+
+        <table class="default-table">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Nome do grupo</td>
+                    <td>Instituição</td>
+                    <td>Nome do responsavel</td>
+                    <td>opfções</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each groups}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{name}}</td>
+                        <td>
+                            <form action="/institution/delete" method="post">
+                                <input type="hidden" name="id" value={{id}}>
+                                <button>Remover</button>
+                            </form>                            
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
                
     </div>
 </div>
