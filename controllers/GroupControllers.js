@@ -1,8 +1,38 @@
 
+const userTemp = require("../models/Users")
+const instTemp = require("../models/Institutions")
 const groupService = require("../services/GroupService");
+
 
 const groupController = {
 
+    index: function(req, res){
+        let fUsers;
+        let fInstitutions;
+
+        userTemp.findAll({
+            attributes: ['id','name'],
+        })
+        .then(function(users){
+            fUsers = users;
+            return instTemp.findAll({
+                attributes: ['id','name']
+            })
+        })
+        .then(function(institutions){
+            fInstitutions = institutions
+            groups = 0;
+            res.render('groups/index', {groups: groups, institutions: fInstitutions, users: fUsers});
+        })
+        .catch(function(error){
+            req.flash("error_msg", "Houve um erro ao carregar o formulario");
+            res.redirect("/group")
+        })
+    /*groups = groupService.allData();*/
+    /*groups = 0;
+    res.render('groups/index', {groups: groups});*/
+    },
+    
     /**
      * Funcao: store - armazena o grupo no banco
      * parametros: requisicao e resposta

@@ -2,12 +2,14 @@ const express = require("express")
 const router = express.Router()
 const groupService = require("../services/GroupService")
 const groupController = require("../controllers/GroupControllers")
-const userTemp = require("../models/Users")
-const instTemp = require("../models/Institutions")
+/*const userTemp = require("../models/Users")
+const instTemp = require("../models/Institutions")*/
 
 router.get('/', function(req, res){
 
-    let fUsers;
+    groupController.index(req, res);
+
+    /*let fUsers;
     let fInstitutions;
 
     userTemp.findAll({

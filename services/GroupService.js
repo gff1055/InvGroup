@@ -10,7 +10,6 @@ const groupService = {
      *retorno - objeto contendo o feedback 
      */
 
-
         var feedback = {
         // objeto que mostra o feedback da operacap
             erros:[],
