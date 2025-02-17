@@ -1,4 +1,6 @@
 
+const userTemp = require("../models/Users")
+const instTemp = require("../models/Institutions")
 const repository = require('../models/Groups')
 
 
@@ -34,6 +36,43 @@ const groupService = {
         return feedback;
         
         
+    },
+
+
+    /*
+    loadDataSelect: carrega os usuarios e as instituicoes cadastradas para selecao na pagina de cadastro de grupos
+    parametros: dados da requisicao
+    retorno
+        em caso de falha retorna alerta no console
+        em caso de sucesso retorna os usuarios e as instituições
+    */
+    loadDataSelect:async function(req, res){
+        let fUsers;         // usuarios cadastrados
+        let fInstitutions;  // instituicoes cadastradas
+
+        // buscando todos os usuarios...
+        await userTemp.findAll({
+            attributes: ['id','name'],
+        })
+        .then(function(users){
+            fUsers = users;
+        // se a busca por usuarios funcionar, é feita a busca pelas instituições
+            return instTemp.findAll({
+                attributes: ['id','name']
+            })
+        })
+        .then(function(institutions){
+            fInstitutions = institutions
+        })
+        // se alguma das buscas falhar é feito um alerta no console
+        .catch(function(error){
+            console.log("Houve um erro interno: loadDataSelect " + error)
+        })
+
+        return {
+            users: fUsers,
+            institutions: fInstitutions
+        }
     },
 
 
