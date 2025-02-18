@@ -84,7 +84,7 @@
                     <td>Nome do grupo</td>
                     <td>Instituição</td>
                     <td>Nome do responsavel</td>
-                    <td>opfções</td>
+                    <td>opções</td>
                 </tr>
             </thead>
 
@@ -93,8 +93,10 @@
                     <tr>
                         <td>{{id}}</td>
                         <td>{{name}}</td>
+                        <td>{{institution_id}}</td>
+                        <td>{{user_id}}</td>
                         <td>
-                            <form action="/institution/delete" method="post">
+                            <form action="/group/delete" method="post">
                                 <input type="hidden" name="id" value={{id}}>
                                 <button>Remover</button>
                             </form>                            

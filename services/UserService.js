@@ -84,24 +84,25 @@ const userService = {
     },
 
     
+   /*
+   Funcao - Exibir todas os usuarios cadastrados
+   retorno - objeto contendo todos os usuarios
+   */
 
     allData: async function(){
-   /**Funcao - Exibir todas os usuarios cadastrados
-     *retorno - objeto contendo todos os usuarios
-     */
 
         let users;
-        await repository.findAll().then(
-            function(answer){
+        await repository.findAll()
+        .then(function(answer){
             // Todos os usuarios sao buscados
-                users = answer;
+            users = answer;
 
-                for(i = 0; i<users.length; i++){
+            for(i = 0; i<users.length; i++){
                 // Os CPF e telefones sao formatados para exibicao
-                    users[i].cpf = userService.formatCPF(users[i].cpf);
-                    users[i].phone = userService.formatPhone(users[i].phone);
-                }
-            })
+                users[i].cpf = userService.formatCPF(users[i].cpf);
+                users[i].phone = userService.formatPhone(users[i].phone);
+            }
+        })
 
         return users;
     },

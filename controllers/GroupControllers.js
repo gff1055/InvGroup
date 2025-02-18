@@ -13,12 +13,21 @@ const groupController = {
     */
     index: function(req, res){
 
+        let fGroups;
+        let fUsers;
+        let fInstitutions
+
         // carrega os dados da pagina
         groupService.loadDataSelect()
         // renderiza a pagina em caso de sucesso
         .then(function(answer){
-            groups = 0;
-            res.render('groups/index', {groups: groups, institutions: answer.institutions, users: answer.users});
+            fInstitutions = answer.institutions;
+            fUsers = answer.users;
+            return groupService.allData()
+        })
+        .then(function(answer){
+            fGroups = answer;
+            res.render('groups/index', {groups: fGroups, institutions: fInstitutions, users: fUsers});
         })
         // redireciona para a pagina principal com alerta de falha
         .catch(function(error){

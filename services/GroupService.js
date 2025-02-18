@@ -77,8 +77,20 @@ const groupService = {
 
 
 
-    allData: function(){
-        return true;
+    /*
+    allData
+        Funcao: exibir todos os grupos cadastrados
+        retorno: objeto contendo todos os grupos
+
+    */
+    allData: async function(){
+        let groups;
+        await repository.findAll()
+        .then(function(answer){
+            groups = answer;
+        })
+
+        return groups;
     },
 
 
