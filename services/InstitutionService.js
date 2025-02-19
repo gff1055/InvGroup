@@ -38,6 +38,7 @@ const institutionService = {
 
         let institutions;
 
+        // Executa a busca pelas instituições, retornando-as se as achar
         await repository_institution.findAll()
         .then(function(answer){
             institutions = answer;
@@ -45,6 +46,27 @@ const institutionService = {
         
         return institutions;
 
+    },
+
+
+
+    show: async function(req, res){
+
+        let institution;
+
+        await repository_institution.findOne({
+            where:{
+                id: req.params.id
+            }
+        })
+        .then(function(answer){
+            institution = answer;
+        })
+
+        console.log("em show")
+        console.log(institution)
+
+        return institution;
     },
 
 

@@ -50,6 +50,15 @@ const institutionController = {
 
 
 
+    show: function(req, res){
+        institutionService.show(req, res)
+        .then(function(institution){
+            res.render("institution/show", {institution: institution})
+        })
+    },
+
+
+
     /*
     Metodo      :destroy
     Objetivo    :excluir a instituição no banco de dados
