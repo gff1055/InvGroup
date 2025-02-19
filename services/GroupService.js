@@ -1,7 +1,8 @@
 
 const userTemp = require("../models/Users")
 const instTemp = require("../models/Institutions")
-const repository = require('../models/Groups')
+const repository = require('../models/Groups');
+
 
 
 const groupService = {
@@ -84,10 +85,29 @@ const groupService = {
 
     */
     allData: async function(){
-        let groups;
-        await repository.findAll()
+        let groups; // variavel que recebe os grupos cadastrados
+
+        // buscando todos os grupos
+        // se a busca tiver sucesso a variavel groups recebe o retorno
+        // se houver erro é exibida uma mensagem no console
+        await repository.findAll({
+
+            // incluindo o nome do responsavel e da isntituicção
+            include:[{
+                model: userTemp,
+                required: true,
+                attributes: ['name']
+            },{
+                model: instTemp,
+                required: true,
+                attributes: ['name']
+            }],
+        })
         .then(function(answer){
             groups = answer;
+        })
+        .catch(function(error){
+            console.log(error);
         })
 
         return groups;
