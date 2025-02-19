@@ -1,9 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const groupService = require("../services/GroupService")
 const groupController = require("../controllers/GroupControllers")
-/*const userTemp = require("../models/Users")
-const instTemp = require("../models/Institutions")*/
 
 router.get('/', function(req, res){
     groupController.index(req, res);
@@ -14,26 +11,7 @@ router.post('/',function(req, res){
 })
 
 router.post('/delete', function(req, res){
-
-
-    // chamando a funcao para xcluir o grupo
-    groupService.destroy(req, res)
-    .then(function(answer){
-
-        // Se houve falha na exclusao
-        // a pagina é renderizada indicando o erro
-
-        if(answer.success != true){
-            res.render("group/index", {feedback:answer})
-        }
-
-        // Se houver sucesso, a mensagem é exibida
-        else{
-            req.flash("success_msg", "Usuario excluido")
-            res.redirect("/group")
-        }
-    });
-   res.send("pagina GET de /create de grupo")
+    groupController.destroy(req, res);
 })
 
 router.get('/create', function(req, res){

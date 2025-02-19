@@ -92,7 +92,7 @@ const groupService = {
         // se houver erro é exibida uma mensagem no console
         await repository.findAll({
 
-            // incluindo o nome do responsavel e da isntituicção
+            // incluindo o nome do responsavel e da isntituicção no retorno da consulta
             include:[{
                 model: userTemp,
                 required: true,
@@ -119,8 +119,14 @@ const groupService = {
     },
 
 
-    destroy: function(req, res){
-/*
+    /*
+    Metodo      :destroy
+    Objetivo    :excluir um grupo
+    Parametros  :dados de requisicao do navegador
+    Retorno     :objeto que contem o feedback da operacao
+    */
+   
+    destroy: async function(req, res){
         // objeto para enviar feedback
         let feedback = {
             erros:[],
@@ -141,7 +147,7 @@ const groupService = {
             feedback = true;
         })
 
-        return feedback;*/
+        return feedback;
 
 
     },

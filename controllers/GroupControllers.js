@@ -19,10 +19,11 @@ const groupController = {
 
         // carrega os dados da pagina
         groupService.loadDataSelect()
-        // renderiza a pagina em caso de sucesso
+        // recebendo os dados das instituições e usuarios para preencher os selects
         .then(function(answer){
             fInstitutions = answer.institutions;
             fUsers = answer.users;
+            // retorna os dados dos grupos
             return groupService.allData()
         })
         .then(function(answer){
@@ -38,11 +39,12 @@ const groupController = {
 
        
     /*
-     Funcao: store - armazena o grupo no banco
-     parametros: requisicao e resposta
+     Funcao     :store
+     Objetivo   :armazena o grupo no banco
+     parametros :requisicao e resposta
      retorno:
-     em caso de sucesso retorna mensagem de grupo cadastrado
-     em caso de falha retorna o erro
+                :em caso de sucesso retorna mensagem de grupo cadastrado
+                :em caso de falha retorna o erro
      */
     store: function(req, res){
 
@@ -64,8 +66,33 @@ const groupController = {
         })
     },
 
+
+    /*
+    Metodo      :destroy
+    Objetivo    :excluir o grupo no banco de dados
+    Parametros  :requisicao e resposta
+    Retorno:
+                :em caso de sucesso retorna mensagem de grupo excluido
+                :em caso de falha retorna indicando o erro
+     */
+
     destroy: function(req, res){
 
+        // chamando funcao para excluir grupo
+        groupService.destroy(req, res)
+        .then(function(answer){
+
+            // Se houve falha na exclusao, a pagina é renderizada novamente indicando o erro
+            if(answer.success!=true){
+                res.render("group/index", {feedback: answer})
+            }
+
+            // Se houver sucesso, a mensagem é exibida
+            else{
+                req.flash("success_msg", "Grupo excluido")
+                res.redirect("/group")
+            }
+        })
     },
 
 

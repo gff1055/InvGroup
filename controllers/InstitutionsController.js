@@ -2,6 +2,12 @@ const institutionService = require("../services/InstitutionService");
 
 const institutionController = {
 
+    /*
+    Metodo      :index
+    Objetivo    :mostrar a pagina inicial de instituições
+    Retorno     :renderiza a pagina com todos os dados necessarios
+    */
+
     index:function(req, res){
 
         // funcao que retorna todos os dados
@@ -14,10 +20,18 @@ const institutionController = {
     },
 
 
+    /*
+     Funcao     :store
+     Objetivo   :armazena a instituição no banco
+     parametros :requisicao e resposta
+     retorno:
+                :em caso de sucesso retorna mensagem de instituição cadastrada
+                :em caso de falha retorna o erro
+     */
 
     store: function(req, res){
         
-        // funcao para adicionar a instituicao é chamaada
+        // funcao para adicionar a instituicao é chamada
         institutionService.store(req, res)
         .then(function(answer){
             
@@ -35,6 +49,15 @@ const institutionController = {
     },
 
 
+
+    /*
+    Metodo      :destroy
+    Objetivo    :excluir a instituição no banco de dados
+    Parametros  :requisicao e resposta
+    Retorno
+                :em caso de sucesso retorna mensagem de instituição excluida
+                :em caso de falha retorna indicando o erro
+     */
 
     destroy: function(req, res){
         
