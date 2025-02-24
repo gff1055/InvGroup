@@ -38,13 +38,28 @@
             <thead>
                 <tr>
                     <td>#</td>
-                    <td>Nome</td>
-                    <td>opfções</td>
+                    <td>Nome do grupo</td>
+                    <td>Instituição</td>
+                    <td>Nome do responsavel</td>
+                    <td>opções</td>
                 </tr>
             </thead>
 
             <tbody>
-                
+                {{#each groupsByInstitution}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{name}}</td>
+                        <td>{{institution.name}}</td>
+                        <td>{{user.name}}</td>
+                        <td>
+                            <form action="group/delete" method="post">
+                                <input type="hidden" name="id" value={{id}}>
+                                <button>Remover</button>
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>

@@ -1,4 +1,5 @@
 const repository_institution = require('../models/Institutions');
+const groupService = require('../services/GroupService')
 const { allData } = require('./UserService');
 
 const institutionService = {
@@ -50,10 +51,22 @@ const institutionService = {
 
 
 
+    /*
+    Metodo      :show
+    Funcao      :Exibir os grupos associados a uma instituicao
+    Parametros  :Dados de requisicao
+    Retorno     :Dados da Instituicao e dos grupos associados a ela 
+    */
     show: async function(req, res){
 
-        let institution;
+        let institution;            // dados da isntituicao
+        let groupsByInstitution;    // dados do grupo da instituicao
 
+        /*
+            busca os dados da instituicao
+            Se a instituição for achada, são buscados os grupos associados a ela
+            Caso contrario, mensagem de erro é exibida no console
+        */ 
         await repository_institution.findOne({
             where:{
                 id: req.params.id
@@ -61,14 +74,20 @@ const institutionService = {
         })
         .then(function(answer){
             institution = answer;
+            return groupService.searchByInstitution(req.params.id)
+        })
+        .then(function(answer){
+            groupsByInstitution = answer;
+        })
+        .catch(function(answer){
+            console.log("ERRO DUARNTE A EXECUCAO DE institutionService.show " + answer);
         })
 
-        console.log("em show")
-        console.log(institution)
-
-        return institution;
+        return {
+            institution: institution,
+            groupsByInstitution: groupsByInstitution
+        };
     },
-
 
 
     update: function(){

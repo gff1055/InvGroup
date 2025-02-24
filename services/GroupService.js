@@ -114,6 +114,42 @@ const groupService = {
     },
 
 
+    /*
+        Metodo      :searchByInstitution
+        Funcao      :Fazer a busca de grupos que fazem parte de uma instituição
+        Parametro   :o identificador da Instituicao
+        Retorno     :grupos associados a instituicao
+    */
+    searchByInstitution: async function(institutionId){
+        let groups;     // grupos associados a istituicao
+
+        /*
+            Efetua a busca de todos os grupos
+            Se houver grupos, eles sao selecionados e adicionados a variavel de retorno
+        */
+        await repository.findAll({
+            where:{
+                institution_id: institutionId
+            },
+            include:[{
+                model: userTemp,
+                required: true,
+                attributes: ['name']
+            },{
+                model: instTemp,
+                required: true,
+                attributes: ['name']
+            }],
+        })
+        .then(function(answer){
+            groups = answer;
+        })
+
+        return groups;
+
+    },
+
+
     update: function(){
         return true;
     },

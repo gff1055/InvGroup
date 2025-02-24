@@ -52,8 +52,11 @@ const institutionController = {
 
     show: function(req, res){
         institutionService.show(req, res)
-        .then(function(institution){
-            res.render("institution/show", {institution: institution})
+        .then(function(answer){
+            res.render("institution/show", {
+                institution: answer.institution,
+                groupsByInstitution: answer.groupsByInstitution
+            })
         })
     },
 
