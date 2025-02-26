@@ -39,6 +39,10 @@ const groupService = {
         
     },
 
+    /*show: function(){
+
+    }*/
+
 
     /*
     loadDataSelect: carrega os usuarios e as instituicoes cadastradas para selecao na pagina de cadastro de grupos
@@ -79,17 +83,17 @@ const groupService = {
 
 
     /*
-    allData
-        Funcao: exibir todos os grupos cadastrados
-        retorno: objeto contendo todos os grupos
+        Metodo  :allData
+        Funcao  :exibir todos os grupos cadastrados
+        retorno :objeto contendo todos os grupos
 
     */
     allData: async function(){
         let groups; // variavel que recebe os grupos cadastrados
 
         // buscando todos os grupos
-        // se a busca tiver sucesso a variavel groups recebe o retorno
-        // se houver erro é exibida uma mensagem no console
+        // se a busca tiver sucesso, a variavel groups recebe o retorno
+        // se houver erro, é exibida uma mensagem no console
         await repository.findAll({
 
             // incluindo o nome do responsavel e da isntituicção no retorno da consulta

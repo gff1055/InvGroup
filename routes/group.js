@@ -10,16 +10,16 @@ router.post('/',function(req, res){
     groupController.store(req, res);
 })
 
+router.get('/:id', function(req, res){
+    groupController.show(req, res);
+})
+
 router.post('/delete', function(req, res){
     groupController.destroy(req, res);
 })
 
 router.get('/create', function(req, res){
     res.send("pagina GET de /create de grupo")
-})
-
-router.get('/:id', function(req, res){
-    res.send("pagina GET de grupo" + req.params.id)
 })
 
 router.put('/:id', function(req, res){

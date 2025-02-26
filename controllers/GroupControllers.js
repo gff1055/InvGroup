@@ -66,6 +66,10 @@ const groupController = {
         })
     },
 
+    show: function(req, res){
+        res.send("pagina GET de grupo" + req.params.id)
+    },
+
 
     /*
     Metodo      :destroy
