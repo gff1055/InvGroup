@@ -27,10 +27,10 @@
 
         {{>_msg}}
         
-        {{#each feedback.erros}}
-            <div class="alert alert-danger">{{texto}}</div>
+        {{#if erros}}
+            <div class="alert alert-danger">{{erros}}</div>
         {{else}}
-        {{/each}}
+        {{/if}}
 
 
         <form method="post" class="form-padrao">

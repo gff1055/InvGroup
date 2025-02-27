@@ -50,6 +50,9 @@ const institutionService = {
     },
 
 
+    
+
+
 
     /*
     Metodo      :show
@@ -57,7 +60,7 @@ const institutionService = {
     Parametros  :Dados de requisicao
     Retorno     :Dados da Instituicao e dos grupos associados a ela 
     */
-    show: async function(req, res){
+    show: async function(pInstitutionId){
 
         let institution;            // dados da isntituicao
         let groupsByInstitution;    // dados do grupo da instituicao
@@ -69,12 +72,12 @@ const institutionService = {
         */ 
         await repository_institution.findOne({
             where:{
-                id: req.params.id
+                id: pInstitutionId
             }
         })
         .then(function(answer){
             institution = answer;
-            return groupService.searchByInstitution(req.params.id)
+            return groupService.searchByInstitution(pInstitutionId)
         })
         .then(function(answer){
             groupsByInstitution = answer;

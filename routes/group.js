@@ -18,6 +18,11 @@ router.post('/delete', function(req, res){
     groupController.destroy(req, res);
 })
 
+router.post('/:id/user/:id', function(req, res){
+    res.render("AQUI?")
+})
+
+
 router.get('/create', function(req, res){
     res.send("pagina GET de /create de grupo")
 })

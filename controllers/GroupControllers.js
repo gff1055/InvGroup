@@ -66,8 +66,16 @@ const groupController = {
         })
     },
 
+    
     show: function(req, res){
-        res.send("pagina GET de grupo" + req.params.id)
+        groupService.show(req.params.id)
+        .then(function(answer){
+            res.render("groups/show",{
+                group: answer.group,
+                users: answer.users,
+                erros: answer.erros
+            })
+        })
     },
 
 

@@ -2,6 +2,7 @@
 const userTemp = require("../models/Users")
 const instTemp = require("../models/Institutions")
 const repository = require('../models/Groups');
+const userService = require("../services/UserService")
 
 
 
@@ -39,9 +40,50 @@ const groupService = {
         
     },
 
-    /*show: function(){
+    show: async function(pGroupId){
 
-    }*/
+        let fGroup;
+        let fErros;
+        let fUsers;
+
+        await repository.findOne({
+            where:{
+                id: pGroupId
+            },
+
+            include:[{
+                model: userTemp,
+                required: true,
+                attributes: ['name']
+            },{
+                model: instTemp,
+                required: true,
+                attributes: ['name']
+            }],
+        })
+        .then(function(answer){
+            fGroup = answer;
+            fErros = null;
+            return userService.allData();
+        })
+        .then(function(answer){
+            fUsers = answer;
+            fErros = null;
+        })
+        .catch(function(answer){
+            console.log("Erro durante a execução de GroupService.show" + answer)
+            fErros = answer;
+        })
+
+        console.log(fGroup);
+
+        return {
+            users: fUsers,
+            group: fGroup,
+            erros: fErros
+        }
+        
+    },
 
 
     /*

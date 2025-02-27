@@ -50,13 +50,28 @@ const institutionController = {
 
 
 
+    /*
+    Metodo      :show
+    Obejtivo    :renderizar pagina com os dados da instituicao e seus grupos
+    Parametros  :dados da requisicao do navegador
+    Retorno
+        sucesso :view com os dados da instituicao e grupos para renderizacao
+        falha   :mensagem é exinida no console
+    */
     show: function(req, res){
-        institutionService.show(req, res)
+
+        // chama a funcao para retornar os dados
+        // Em caso de sucesso, os dados da instituicao e grupos são renderizados
+        // Em caso de falha, mensagem é exibida no console
+        institutionService.show(req.params.id)
         .then(function(answer){
             res.render("institution/show", {
                 institution: answer.institution,
                 groupsByInstitution: answer.groupsByInstitution
             })
+        })
+        .catch(function(answer){
+            console.log("Houve erro em institution.controller.show " + answer)
         })
     },
 
