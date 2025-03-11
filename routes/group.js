@@ -14,13 +14,19 @@ router.get('/:id', function(req, res){
     groupController.show(req, res);
 })
 
+router.post('/:id', function(req, res){
+    res.send("AQUI?")
+    console.log(req);
+    //groupController.userStore('req', 'res')
+})
+
 router.post('/delete', function(req, res){
     groupController.destroy(req, res);
 })
 
-router.post('/:id/user/:id', function(req, res){
+/*router.post('/:id/user/:id', function(req, res){
     res.render("AQUI?")
-})
+})*/
 
 
 router.get('/create', function(req, res){

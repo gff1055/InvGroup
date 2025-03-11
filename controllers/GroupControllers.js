@@ -107,6 +107,10 @@ const groupController = {
         })
     },
 
+    usersStore: function(req, res){
+
+    },
+
 
     update1: function(req, res){
 
