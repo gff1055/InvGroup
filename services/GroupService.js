@@ -3,6 +3,7 @@ const userTemp = require("../models/Users")
 const instTemp = require("../models/Institutions")
 const repository = require('../models/Groups');
 const userService = require("../services/UserService")
+const repositoryUserGroups = require("../models/UserGroups")
 
 
 
@@ -27,12 +28,10 @@ const groupService = {
             institution_id: req.body.institution_id
         }).then(function(){
             feedback.success = true;
-            console.log("FROM GROUPS feedback.success = true" + feedback.success);
         }).catch(function(){
             req.flash("error_msg", "Houve um erro ao salvar o grupo, tente novamente")
-            console.log("Erro ao salvar o grupo");
-                feedback.exception = true;
-                feedback.success = false;
+            feedback.exception = true;
+            feedback.success = false;
         })
 
         return feedback;
@@ -40,6 +39,38 @@ const groupService = {
         
     },
 
+
+
+    userStore: async function(req, res){
+
+        var feedback = {
+            erros:[],
+            success: false,
+            exception: false,
+            data:""
+        }
+
+        await repositoryUserGroups.create({
+
+            permission  :'default',
+            user_id     :req.body.user_id,
+            group_id    :req.body.group_id
+            
+        }).then(function(){
+            feedback.success = true;
+        }).catch(function(answer){
+            feedback.exception = true;
+            feedback.success = false;
+            feedback.data = answer;
+            
+        })
+
+        return feedback;
+        
+    },
+
+
+    
     show: async function(pGroupId){
 
         let fGroup;

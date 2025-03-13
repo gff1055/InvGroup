@@ -15,9 +15,7 @@ router.get('/:id', function(req, res){
 })
 
 router.post('/:id', function(req, res){
-    res.send("AQUI?")
-    console.log(req);
-    //groupController.userStore('req', 'res')
+    groupController.userStore(req, res)
 })
 
 router.post('/delete', function(req, res){

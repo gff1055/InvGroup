@@ -48,7 +48,7 @@ const groupController = {
      */
     store: function(req, res){
 
-        let varFunc = groupService.store(req, res)
+        let varGroup = groupService.store(req, res)
         .then((answer) => {
 
             // Se houve falha na adicao, a pagina é renderizada novamente indicando o erro
@@ -64,6 +64,30 @@ const groupController = {
 
 
         })
+    },
+
+
+    userStore: function(req, res){
+        console.log("VVVVVV REQ ENVIADO VVVVVVV")
+        console.log(req.body)
+        groupService.userStore(req, res)
+        .then(function(answer){
+
+            // Se houver falha na adicao, a pagina é renderizada novamente indicando o erro
+            // Se houver sucesso, a mensagem é exibida
+            if(answer.success == true)
+                res.render("groups/show", {feedback: answer})
+
+            else if(answer.exception == true){
+                req.flash("error_msg", "Houve um erro ao salvar> " + answer.data)
+                res.redirect("/group/"+req.params.id)
+            }
+            
+            else{
+                req.flash("success_msg", "Grupo cadastrado")
+                res.redirect("/group/"+req.params.id)
+            }
+        }) 
     },
 
     
@@ -107,11 +131,8 @@ const groupController = {
         })
     },
 
-    usersStore: function(req, res){
-
-    },
-
-
+    
+    
     update1: function(req, res){
 
     }
