@@ -11,19 +11,29 @@ const institutionService = {
      */
 
         var feedback = {
-            erros: [],
-            success: false,
-            exception: false
+            erros   :[],
+            success :false,
+            issue   :{
+                exception   :false,
+                validation  :false
+            },
+            data    :""
         }
 
         await repository_institution.create({
+
             name: req.body.name
+
         }).then(function(){
+
             feedback.success = true;
-        }).catch(function(){
-            req.flash("error_msg", "Houve um erro ao cadastrar a instituicao. Tente novamente")
-            feedback.exception = true;
-            feedback.success = false;
+
+        }).catch(function(answer){
+
+            feedback.issue.exception    = true;
+            feedback.success            = false;
+            feedback.data               = answer;
+
         })
 
         return feedback;

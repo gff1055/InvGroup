@@ -19,19 +19,23 @@ const groupService = {
         // objeto que mostra o feedback da operacap
             erros:[],
             success: false,
-            exception: false
+            issue:{
+                exception   :false,
+                validation  :false
+            },
+            data:""
         }
 
         await repository.create({
-            name: req.body.name,
-            user_id: req.body.user_id,
-            institution_id: req.body.institution_id
+            name            :req.body.name,
+            user_id         :req.body.user_id,
+            institution_id  :req.body.institution_id
         }).then(function(){
             feedback.success = true;
-        }).catch(function(){
-            req.flash("error_msg", "Houve um erro ao salvar o grupo, tente novamente")
-            feedback.exception = true;
-            feedback.success = false;
+        }).catch(function(answer){
+            feedback.issue.exception    = true;
+            feedback.success            = false;
+            feedback.data               = answer
         })
 
         return feedback;
@@ -44,10 +48,13 @@ const groupService = {
     userStore: async function(req, res){
 
         var feedback = {
-            erros:[],
-            success: false,
-            exception: false,
-            data:""
+            erros   :[],
+            success :false,
+            issue   :{
+                exception   :false,
+                validation  :false
+            },
+            data    :""
         }
 
         await repositoryUserGroups.create({
@@ -57,12 +64,15 @@ const groupService = {
             group_id    :req.body.group_id
             
         }).then(function(){
+
             feedback.success = true;
+
         }).catch(function(answer){
-            feedback.exception = true;
-            feedback.success = false;
-            feedback.data = answer;
-            
+
+            feedback.issue.exception    = true;
+            feedback.success            = false;
+            feedback.data               = answer
+                    
         })
 
         return feedback;

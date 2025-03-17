@@ -41,42 +41,61 @@ const userService = {
 
 
         var feedback = {
-            erros:[],
-            success: false,
-            exception: false
+            erros   :[],
+            success :false,
+            issue   :{
+                exception   :false,
+                validation  :false
+            },
+            data    :""
         }
-
         
         // Verifica se o nome do usuario é valido
         
-        if(!req.body.name || typeof req.body.name == undefined || req.body.name == null)
+        if(!req.body.name || typeof req.body.name == undefined || req.body.name == null){
+            feedback.issue.validation = true;
             feedback.erros.push({texto: "Nome invalido"})
-        if(!req.body.phone || typeof req.body.phone == undefined || req.body.phone == null)
+        }
+
+        if(!req.body.phone || typeof req.body.phone == undefined || req.body.phone == null){
+            feedback.issue.validation = true;
             feedback.erros.push({texto: "telefone invalido"})
-        if(!req.body.email || typeof req.body.email == undefined || req.body.email == null)
+        }
+        
+        if(!req.body.email || typeof req.body.email == undefined || req.body.email == null){
+            feedback.issue.validation = true;
             feedback.erros.push({texto: "Email invalido"})
-        if(!req.body.password || typeof req.body.password == undefined || req.body.password == null)
+        }
+        
+        if(!req.body.password || typeof req.body.password == undefined || req.body.password == null){
+            feedback.issue.validation = true;
             feedback.erros.push({texto: "Password invalido"})
+        }
 
         /**Se nao houver erros o usuario é inserido */
         if(feedback.erros.length == 0){
 
             await repository.create({           // Adiciona o usuario
-                cpf: req.body.cpf,
-                name: req.body.name,
-                phone: req.body.phone,
-                email: req.body.email,
-                password: req.body.password,
-            }).then(function(){                     // Em caso de sucesso na insercao a mensagem é exibida
+                
+                cpf     :req.body.cpf,
+                name    :req.body.name,
+                phone   :req.body.phone,
+                email   :req.body.email,
+                password:req.body.password,
+
+            }).then(function(){                // Em caso de sucesso na insercao a mensagem é exibida
+
                 feedback.success = true;
-                console.log("feedback.success = true" + feedback.success);
-            }).catch(function(){                        // Em caso de erro uma mensagem é exibida
-                req.flash("error_msg", "Houve um erro ao salvar o usuario, tente novamente")
-                console.log("Erro ao salvar o usuario")
-                feedback.exception = true;
-                feedback.success = false;
+
+            }).catch(function(answer){                        // Em caso de erro uma mensagem é exibida
+
+                feedback.issue.exception    = true;
+                feedback.success            = false;
+                feedback.data               = answer
+
             })
         }
+        
         else{
             feedback.success = false;
         }

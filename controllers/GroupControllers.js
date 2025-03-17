@@ -52,12 +52,17 @@ const groupController = {
         .then((answer) => {
 
             // Se houve falha na adicao, a pagina é renderizada novamente indicando o erro
-            if(answer.success != true){
+            if(answer.issue.validation == true){
                 res.render("groups/index", {feedback:answer})
             }
 
+            else if(answer.issue.exception == true){
+                req.flash("error_msg", "Houve um erro ao salvar> " + answer.data)
+                res.redirect("/group")
+            }
+
             // Se houver sucesso, a mensagem é exibida
-            else{
+            else if(answer.success == true){
                 req.flash("success_msg", "Grupo cadastrado!")
                 res.redirect("/group")
             }
@@ -75,16 +80,18 @@ const groupController = {
 
             // Se houver falha na adicao, a pagina é renderizada novamente indicando o erro
             // Se houver sucesso, a mensagem é exibida
-            if(answer.success == true)
+            console.log(answer.success)
+            console.log(answer.exception)
+            if(answer.issue.validation == true)
                 res.render("groups/show", {feedback: answer})
 
-            else if(answer.exception == true){
+            else if(answer.issue.exception == true){
                 req.flash("error_msg", "Houve um erro ao salvar> " + answer.data)
                 res.redirect("/group/"+req.params.id)
             }
             
-            else{
-                req.flash("success_msg", "Grupo cadastrado")
+            else if(answer.success == true){
+                req.flash("success_msg", "Usuario associado ao grupo")
                 res.redirect("/group/"+req.params.id)
             }
         }) 
