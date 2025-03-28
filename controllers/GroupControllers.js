@@ -72,16 +72,21 @@ const groupController = {
     },
 
 
+    /*
+        Funcao      :userStore
+        Objetivo    :requisitar o cadastro do usuario no grupo
+        parametros  :requisicao e resposta
+        retorno     :Mensagem indicando o status da operacao
+     */
+    
     userStore: function(req, res){
-        console.log("VVVVVV REQ ENVIADO VVVVVVV")
-        console.log(req.body)
+        
+        // Chamando funcao para cadastro do usuario
         groupService.userStore(req, res)
         .then(function(answer){
 
             // Se houver falha na adicao, a pagina é renderizada novamente indicando o erro
             // Se houver sucesso, a mensagem é exibida
-            console.log(answer.success)
-            console.log(answer.exception)
             if(answer.issue.validation == true)
                 res.render("groups/show", {feedback: answer})
 
@@ -97,14 +102,43 @@ const groupController = {
         }) 
     },
 
-    
+
+    /*
+        Funcao      :show
+        Objetivo    :exibir a pagina de informações do grupo
+        parametros  :requisicao e resposta
+        retorno     :pagina renderizada
+     */
+
     show: function(req, res){
+        
+        let fGroup;         // lista de grupos
+        let fErros;         // lista de erros
+        let fUsers;         // lista de usuarios
+        let fUsersGroup;    // lista de usuarios de um grupo
+        
+        // chamando o metodo que retorna informações do grupo
         groupService.show(req.params.id)
         .then(function(answer){
+
+            // recebendo a resposta
+            fGroup = answer.group;
+            fErros = answer.erros;
+            fUsers = answer.users;
+
+            // chamando o metodo para exibir os usuarios por grupo
+            return groupService.showUsersGroup(req.params.id)
+        }).then(function(answer){
+
+            // recebendo a resposta
+            fUsersGroup = answer.usersGroup
+            fErros = fErros + answer.erros
+            
             res.render("groups/show",{
-                group: answer.group,
-                users: answer.users,
-                erros: answer.erros
+                group: fGroup,
+                users: fUsers,
+                erros: fErros,
+                usersGroup: fUsersGroup
             })
         })
     },

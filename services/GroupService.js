@@ -45,18 +45,27 @@ const groupService = {
 
 
 
+    /**
+     * Metodo       :userstore
+     * Funcao       :cadastrar usuario em um grupo
+     * Parametros   :dados de requisicao
+     * retorno      :objeto que  descreve erros, dados, condicoes (sucesso, falha)
+     */
     userStore: async function(req, res){
 
+        // Objeto que contem o resultado da operação
         var feedback = {
-            erros   :[],
-            success :false,
-            issue   :{
-                exception   :false,
-                validation  :false
+            erros   :[],                // erros encontrados
+            success :false,             // indica se houve sucesso ou falha
+            issue   :{                  // inidica os erros que ocorreram
+                exception   :false,         // sinaliza esxcecoes
+                validation  :false          // sinaliza erros de validacao
             },
-            data    :""
+            data    :""                 // dados requisitados da funcao
         }
 
+        // Usuario é adicionado ao grupo
+        // o resultado da operacao é adicionado ao objeto 'feedback'
         await repositoryUserGroups.create({
 
             permission  :'default',
@@ -64,15 +73,12 @@ const groupService = {
             group_id    :req.body.group_id
             
         }).then(function(){
-
             feedback.success = true;
-
         }).catch(function(answer){
 
             feedback.issue.exception    = true;
             feedback.success            = false;
             feedback.data               = answer
-                    
         })
 
         return feedback;
@@ -80,18 +86,71 @@ const groupService = {
     },
 
 
+
+    /**
+     * Medodo       :showUserGroup
+     * Funcao       :Mostrar os usuarios cadastrados no grupo
+     * Parametro    :id do grupo
+     * Retorno      :Objeto que contem os dados dos usuario que estao no grupo e erros na operação
+     * 
+     */
+    showUsersGroup: async function(pGroupId){
+
+        let fUsersGroup;    // usurios do grupo
+        let fErros;
+
+        // buscando todos os usuarios que estao em um grupo
+        // Em caso de sucesso, a lista de usuarios é enviada para o objeto de retorno
+        // Em caso de falha, a descricao do erro é enviada para o objeto de retorno 
+        await repositoryUserGroups.findAll({
+            where:{
+                group_id: pGroupId
+            },
+
+            include:[{
+                model: userTemp,
+                required: true,
+                attributes: {
+                    exclude:['password']
+                }
+            }]            
+        }).then(function(answer){
+            fUsersGroup = answer;
+        }).catch(function(answer){
+            console.log("Erro durante a execucao de GroupService.showGroupUsers " + answer)
+            fErros = answer;
+        })
+
+        return {
+            usersGroup  :fUsersGroup,
+            erros       :fErros
+        }
+    },
+
+
+    /**
+     * Medodo       :show
+     * Funcao       :Mostrar os dados de um grupo
+     * Parametro    :id do grupo
+     * Retorno      :Objeto que contem os dados do grupo e dos usuario que estao no grupo e erros na operação
+     * 
+     */
     
     show: async function(pGroupId){
 
-        let fGroup;
-        let fErros;
-        let fUsers;
+        let fGroup; // dados do grupo
+        let fErros; // descricao de erros
+        let fUsers; // dados dos usuarios do grupo
 
+        // procura um determinado grupo
+        // se conseguir, procura todos os usuarios cadastrados
+        // em caso de excecao, os dados da mesma sao retornados
         await repository.findOne({
             where:{
                 id: pGroupId
             },
 
+            // inclui o usuario responsavel e a instituição
             include:[{
                 model: userTemp,
                 required: true,
@@ -115,8 +174,6 @@ const groupService = {
             console.log("Erro durante a execução de GroupService.show" + answer)
             fErros = answer;
         })
-
-        console.log(fGroup);
 
         return {
             users: fUsers,
@@ -156,6 +213,8 @@ const groupService = {
         .catch(function(error){
             console.log("Houve um erro interno: loadDataSelect " + error)
         })
+
+        
 
         return {
             users: fUsers,

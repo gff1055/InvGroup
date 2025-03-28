@@ -61,5 +61,42 @@
                 </div>
             </div>
         </form>
+
+        <table class="default-table">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>CPF</td>
+                    <td>Nome</td>
+                    <td>Telefone</td>
+                    <td>Nascimento</td>
+                    <td>E-mail</td>
+                    <td>Status</td>
+                    <td>Permissao</td>
+                    <td>Menu</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each usersGroup}}
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td>{{user.cpf}}</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.phone}}</td>
+                        <td>{{user.birth}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.status}}</td>
+                        <td>{{user.permission}}</td>
+                        <td>
+                            <form action="/user/delete" method="post">
+                                <input type="hidden" name="id" value={{user.id}}>
+                                <button>Remover</button>
+                            </form>                            
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
 </div>
