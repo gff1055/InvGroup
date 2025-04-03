@@ -27,36 +27,38 @@
 
         {{>_msg}}
         
-        {{#each feedback.erros}}
-            <div class="alert alert-danger">{{texto}}</div>
-        {{else}}
-        {{/each}}
+        {{#if user.issue.validation}}
+            {{#each user.erros}}
+                <div class="alert alert-danger">{{texto}}</div>
+            {{/each}}
+        {{/if}}
 
         <form method="post", class="form-padrao">
+            <input type="hidden" value="{{user.data.id}}" name="id">
             <div class="row">
                 <div class="col-6">
                     <label>
                         <span>CPF</span>
-                        <input type="text" name="cpf" placeholder="CPF">
+                        <input type="text" name="cpf" placeholder="CPF" value="{{user.data.cpf}}">
                     </label>
                 </div>
                  <div class="col-6">            
                     <label>
                         <span>Nome</span>
-                        <input type="text" name="name" placeholder="Nome">
+                        <input type="text" name="name" placeholder="Nome" value="{{user.data.name}}">
                     </label>
                 </div>
                 <div class="w-100"></div>
                 <div class="col-6">
                     <label>
                         <span>Phone</span>
-                        <input type="text" name="phone" placeholder="Phone">
+                        <input type="text" name="phone" placeholder="Phone" value="{{user.data.phone}}">
                     </label>
                 </div>
                  <div class="col-6">            
                     <label>
                         <span>Email</span>
-                        <input type="text" name="email" placeholder="Email">
+                        <input type="text" name="email" placeholder="Email" value="{{user.data.email}}">
                     </label>
                 </div>
                 <div class="w-100"></div>
@@ -74,43 +76,6 @@
             </div>
         </form>
 
-        <table class="default-table">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td>CPF</td>
-                    <td>Nome</td>
-                    <td>Telefone</td>
-                    <td>Nascimento</td>
-                    <td>E-mail</td>
-                    <td>Status</td>
-                    <td>Permissao</td>
-                    <td>Menu</td>
-                </tr>
-            </thead>
-
-            <tbody>
-                {{#each users}}
-                    <tr>
-                        <td>{{id}}</td>
-                        <td>{{cpf}}</td>
-                        <td>{{name}}</td>
-                        <td>{{phone}}</td>
-                        <td>{{birth}}</td>
-                        <td>{{email}}</td>
-                        <td>{{status}}</td>
-                        <td>{{permission}}</td>
-                        <td>
-                            <form action="/user/delete" method="post">
-                                <input type="hidden" name="id" value={{id}}>
-                                <button>Remover</button>
-                            </form>
-                            <a href="/user/{{id}}/edit">Editar</a>                            
-                        </td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
     </div>
 
 

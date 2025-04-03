@@ -10,6 +10,10 @@ router.post('/', function(req, res){usersController.store(req, res)})
 
 router.post('/delete', function(req, res){usersController.destroy(req, res)})
 
+router.get('/:id/edit', function(req, res){usersController.edit(req, res)})
+
+router.post('/:id/edit', function(req, res){usersController.update(req, res)})
+
 router.get('/create', function(req, res){
     res.send("pagina GET de /create")
 })
@@ -26,8 +30,6 @@ router.put('/:id', function(req, res){
     res.send("pagina PUT do usuario" + req.params.id)
 })
 
-router.get('/:id/edit', function(req, res){
-    res.send("pagina GET de edicao do usuario" + req.params.id)
-})
+
 
 module.exports = router

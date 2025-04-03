@@ -1,4 +1,4 @@
-const db = require('./db')
+/*const db = require('./db')
 
 const NomeTabela = db.sequelize.define('dados', {
     atributo: {
@@ -11,4 +11,4 @@ const NomeTabela = db.sequelize.define('dados', {
 
 NomeTabela.sync({force: if true})
 
-module.exports = NomeTabela
+module.exports = NomeTabela*/
