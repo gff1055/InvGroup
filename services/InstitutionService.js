@@ -103,6 +103,38 @@ const institutionService = {
     },
 
 
+
+    /**
+     * Metodo       :institutionData
+     *              -> retornar os dados da instituição
+     * parametro    :id da instituição
+     * retorno      :objeto que contem o resultado da operação
+     */
+
+    institutionData: async function(pInstitutionId){
+        let fException = false; // flag para a ocorrencia de excecoes
+        let fData;              // dados da instituição
+
+        // Se a instiuição for encontrado, os dados dela sao armazenados na variavel fData
+        // Se ocorrer excecao, fData recebe a excecao encontrada e a flag de excecao(fException) é setada
+        await repository_institution.findOne({
+            where:{
+                id: pInstitutionId
+            }
+        }).then(function(answer){
+            fData = answer;
+        }).catch(function(error){
+            fData = error;
+            fException = true;
+        })
+
+        return{
+            exception: fException,
+            data: fData
+        }
+    },
+
+    
     update: function(){
 
     },

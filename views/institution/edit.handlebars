@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-2">
+    <nav id="principal">
+        <a href="/user">
+            <div class="option-menu-lateral">
+            <i class="fa-solid fa-address-book"></i><br>
+            Usuários
+            </div>
+        </a>
+        <a href="/institution">
+            <div class="option-menu-lateral">
+                <i class="fa-solid fa-building"></i><br>
+                Instituições
+            </div>
+        </a>
+
+        <a href="/group">
+            <div class="option-menu-lateral">
+                <i class="fa-solid fa-users"></i><br>
+                Grupos
+            </div>
+        </a>
+    </nav>
+    </div>
+    
+    <div class="col-10 view-conteudo">
+
+        {{>_msg}}
+        
+        {{#if institution.issue.validation}}
+            {{#each institution.erros}}
+                <div class="alert alert-danger">{{texto}}</div>
+            {{/each}}
+        {{/if}}
+
+        <form method="post", class="form-padrao">
+            <input type="hidden" value="{{institution.data.id}}" name="id">
+            <div class="row">
+                
+                 <div class="col-6">            
+                    <label>
+                        <span>Nome</span>
+                        <input type="text" name="name" placeholder="Nome" value="{{institution.data.name}}">
+                    </label>
+                </div>
+                 <div class="col-6">
+                    <label class="submit">
+                    <input type="submit" value="Cadastrar">
+                    </label>            
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+</div>

@@ -109,7 +109,23 @@ const institutionController = {
                 res.redirect("/institution")
             }
         })
-    }
+    },
+
+
+
+    /*
+    Metodo      :edit
+    Objetivo    :editar os dados de um banco
+    Parametros  :requisicao e resposta
+    Retorno     :view da pagina de edição de bancos
+                
+     */
+    edit: function(req, res){
+        institutionService.institutionData(req.params.id)
+        .then(function(answer){
+            res.render("institution/edit", {institution:answer})
+        })
+    },
 }
 
 module.exports = institutionController
