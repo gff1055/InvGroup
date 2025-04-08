@@ -4,6 +4,22 @@ const { allData } = require('./UserService');
 
 const institutionService = {
 
+    /**
+     * isNone       :verifica se o valor do campo é vazio ou invalido
+     * 
+     * parametros   :campo
+     * retorno      :true ou false
+     */
+    isNone: function(pField){
+        if(!pField || typeof pField == undefined || pField == null){
+            return true;
+        }
+
+        return false;
+    },
+    
+
+    
     store: async function(req, res){
     /*Funcao - Cadastrar as instiruicoes
      *Parametro - dados da instituicao 
@@ -135,8 +151,62 @@ const institutionService = {
     },
 
     
-    update: function(){
+    
 
+    /**
+     * Metodo       :update
+     *              -> atualizar os dados da instituicao
+     * parametro    :dados da instituicao vindo do formulario
+     * retorno      :objeto que contem o resultado da operação
+     */
+
+    update:async function(req){
+
+        let feedback = {                // objeto que contem o resultado da operação
+                erros   :[],                // erros encontrados
+                success :false,             // flag de sucesso
+                issue   :{                  // objeto que sinaliza erros
+                    exception:false,            // excecao
+                    validation:false            // erros de validação (campos em branco, invalidos, ..,)
+                },
+                data    :""                 // dados da instiuição ou possiveis erros
+        }
+
+        // Para cada campo, se estiver em branco ou invalidos a flag de erros é setada e
+        // a descricao do erro é adicionada ao objto
+
+        if(this.isNone(req.body.name)){
+            feedback.issue.validation = true;
+            feedback.erros.push({texto: "Nome invalido"})
+        }
+
+        // Se nao houver erros, a atualizacao de dados é executada
+        // Em caso de erros as flags sao setadas e as mensagens de erro adicionadas
+        if(feedback.erros.length == 0){
+        
+            await repository_institution.findOne({
+
+                where:{
+                    id: Number.parseInt(req.body.id)
+                }
+
+            })
+            .then(function(answer){
+                answer.name     = req.body.name 
+                return answer.save()
+            })
+            .then(function(institution){
+                feedback.success = true;
+                feedback.data = institution
+            })
+            .catch(function(answer){
+                feedback.issue.validation = true;
+                feedback.issue.exception = true;
+                feedback.erros += "Erro interno: exception - " + answer;
+            })
+        }
+
+        return feedback;
     },
 
 

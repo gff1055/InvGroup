@@ -14,6 +14,8 @@ router.post('/delete', function(req, res){institutionController.destroy(req, res
 
 router.get('/:id/edit', function(req, res){institutionController.edit(req, res)})
 
+router.post('/:id/edit', function(req, res){institutionController.update(req, res)})
+
 
 
 router.get('/create', function(req, res){

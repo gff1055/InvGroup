@@ -126,6 +126,33 @@ const institutionController = {
             res.render("institution/edit", {institution:answer})
         })
     },
+
+
+    /** acionar o service para atualizacao dos dados de uma instituição */
+    update: function(req,res){
+
+        let institutionId = req.params.id;
+
+        institutionService.update(req)
+        .then(function(answer){
+
+            // Se houve falha na atualização, a pagina é renderizada novamente indicando o erro
+            // Caso contrario a mensagem de confirmação de cadastro é exibida
+
+            if(answer.issue.validation == true){
+                res.render("institution/edit", {institution:answer})
+            }
+            else if(answer.success == true){
+                req.flash("success_msg", "Dados da instituição atualizado")
+                res.redirect('/institution/'+institutionId+'/edit')
+            }
+
+        }).catch(function(error){                                           // falha na listagem
+            req.flash("error_msg", "Ocorreu um erro interno: "+ error);
+            res.redirect("/institution/"+institutionId+"/edit");
+            
+        })
+    },
 }
 
 module.exports = institutionController

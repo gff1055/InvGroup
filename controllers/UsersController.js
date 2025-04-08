@@ -76,8 +76,6 @@ const userController = {
     /**edit: renderizar a pagina de edicao do usuario  */
     edit: function(req, res){
 
-        let fUser
-        
         userService.userData(req.params.id)
         .then(function(answer){
             console.log(answer);
@@ -89,20 +87,22 @@ const userController = {
     /** acionar o service para atualizacao dos dados de um usuario */
     update: function(req,res){
 
-        // Se houve falha na atualização, a pagina é renderizada novamente indicando o erro
         userService.update(req,res)
         .then(function(answer){
+
+            // Se houve falha na atualização, a pagina é renderizada novamente indicando o erro
+            // Caso contrario a mensagem de confirmação de cadastro é exibida
 
             if(answer.issue.validation == true){
                 res.render("user/edit", {user:answer})
             }
             else if(answer.success == true){
-                console.log("else if(answer.success == true){")
                 req.flash("success_msg", "Dados do usuario atualizado")
                 res.redirect('/user/'+req.params.id+'/edit')
             }
 
         }).catch(function(error){                                           // falha na listagem
+            req.flash("error_msg", "Ocorreu um erro interno: "+ error);
             res.redirect("/user/"+req.params.id+"/edit");
             
         })
