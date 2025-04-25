@@ -27,44 +27,49 @@
 
         {{>_msg}}
         
-        {{#each group.erros}}
-            <div class="alert alert-danger">{{texto}}</div>
+        {{#if erros}}
+            <div class="alert alert-danger">{{erros}}</div>
         {{else}}
-        {{/each}}
+        {{/if}}
 
+        {{group.data.user.id}}
 
         <form method="post" class="form-padrao">
+            <input type="hidden" value="{{group.data.id}}" name="id">
             <div class="row">
                 <div class="col-6">
                     <label>
                         <span>Nome do Grupo</span>
-                        <input type="text" name="name" placeholder="Nome do Grupo">
+                        <input type="text" name="name" value="{{group.data.name}}">
                     </label>
                 </div>
                 <div class="col-6">
                     <label>
                         <span>Usuario</span>
                         <select name="user_id" class="custom-select">
-                            <option value="" selected disabled hidden>Selecione o usuario</option>
+                            <option value={{group.data.user_id}}>{{group.data.user.name}}</option>
+                            <option disabled>---------</option>
                             {{#each users}}
                                 <option value={{id}}>{{name}}</option>
                             {{else}}
-                                <option value="none">Nenhum usuario registrado</option>
+                                <option value="-1">Nenhum usuario registrado</option>
                             {{/each}}
                         </select>
                     </label>
                 </div>
 
                 <div class="w-100"></div>
+                
                 <div class="col-6">
                     <label>
                         <span>Instituição</span>
                         <select name="institution_id" class="custom-select">
-                            <option value="" selected disabled hidden>Selecione a instituição</option>
+                            <option value={{group.data.institution_id}} selected>{{group.data.institution.name}}</option>
+                            <option disabled>---------</option>
                             {{#each institutions}}
                                 <option value={{id}}>{{name}}</option>
                             {{else}}
-                                <option value="none">Nenhuma instituicao registrada</option>
+                                <option value="0">Nenhuma instituicao registrada</option>
                             {{/each}}
                         </select>
                     </label>
@@ -75,38 +80,6 @@
                     </label>
                 </div>
             </div>
-        </form>
-
-        <table class="default-table">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td>Nome do grupo</td>
-                    <td>Instituição</td>
-                    <td>Nome do responsavel</td>
-                    <td>opções</td>
-                </tr>
-            </thead>
-
-            <tbody>
-                {{#each groups}}
-                    <tr>
-                        <td>{{id}}</td>
-                        <td>{{name}}</td>
-                        <td>{{institution.name}}</td>
-                        <td>{{user.name}}</td>
-                        <td>
-                            <form action="group/delete" method="post">
-                                <input type="hidden" name="id" value={{id}}>
-                                <button>Remover</button>
-                            </form>
-                            <a href="/group/{{id}}">Detalhes</a>
-                            <a href="/group/{{id}}/edit">Editar</a>
-                        </td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
-               
+        </form>               
     </div>
 </div>

@@ -2,6 +2,7 @@
 
 const express       = require('express')
 const handlebars    = require('express-handlebars')
+const handlebarHelpers = require('./helpers/ifEquals')
 const bodyParser    = require('body-parser')
 const app           = express()
 const path          = require("path") // trabalhar com diretorios

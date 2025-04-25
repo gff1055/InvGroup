@@ -48,12 +48,24 @@ const groupController = {
      */
     store: function(req, res){
 
+        console.log("***** groupController.store *****")
+        console.log(req.body.user_id)
+        console.log(req.body.institution_id)
+        console.log(req.body.name)
+
         let varGroup = groupService.store(req, res)
         .then((answer) => {
 
             // Se houve falha na adicao, a pagina é renderizada novamente indicando o erro
             if(answer.issue.validation == true){
-                res.render("groups/index", {feedback:answer})
+                /*res.render("groups/index", {group:answer})*/
+                req.flash("error_msg", "Os seguintes campos tem valores invalidos ou estao em branco: ")
+                for(i=0; i<answer.erros.length; i++){
+                    req.flash("error_msg", answer.erros[i].texto )
+                    console.log(answer.erros[i]);
+                }
+
+                res.redirect("/group")
             }
 
             else if(answer.issue.exception == true){
@@ -172,11 +184,80 @@ const groupController = {
         })
     },
 
-    
-    
-    update1: function(req, res){
 
-    }
+
+    /*
+    Funcao - carregar a pagina de grupos com todos os dados necessarios
+    Parametros - dados da requisicao do navegador
+    retorno
+        sucesso: renderiza a pagina com todos os dados
+        falha: exibe uma mensagem e redireciona
+    */
+    edit: function(req, res){
+        
+        let users;
+        let institutions;
+        let group;
+
+        let groupId = req.params.id;
+    
+            // carrega os dados da pagina
+            groupService.loadDataSelect()
+            // recebendo os dados das instituições e usuarios para preencher os selects
+            .then(function(answer){
+                institutions = answer.institutions;
+                users = answer.users;
+                // retorna os dados dos grupos
+                return groupService.groupData(groupId)
+            })
+            .then(function(answer){
+                group = answer;
+                console.log(users.id);
+                res.render('groups/edit', {group: group, institutions: institutions, users: users});
+            })
+            // redireciona para a pagina principal com alerta de falha
+            .catch(function(error){
+                req.flash("error_msg", "Houve um erro ao carregar o formulario: "+error);
+                res.redirect("/group")
+            })
+        },
+
+    
+    
+    /*
+     Funcao     :update
+     Objetivo   :atualiza os dados do grupo no banco
+     parametros :requisicao e resposta
+     retorno:
+                :em caso de sucesso retorna mensagem de grupo atualizado
+                :em caso de falha retorna o erro
+    */
+    
+    update: function(req, res){
+
+        groupId = req.params.id;
+        
+        let varGroup = groupService.update(req)
+        .then((answer) => {
+
+            // Se houve falha na atualização, a pagina é renderizada novamente indicando o erro
+            if(answer.issue.validation == true){
+                req.flash("error_msg", "Existem campos com valores em branco ou invalido")
+                res.redirect("/group")
+            }
+
+            else if(answer.issue.exception == true){
+                req.flash("error_msg", "Houve um erro ao atualizar> " + answer.data)
+                res.redirect("/group")
+            }
+
+            // Se houver sucesso, a mensagem é exibida
+            else if(answer.success == true){
+                req.flash("success_msg", "Grupo atualizado!")
+                res.redirect("/group")
+            }
+        })
+    },
 
 }
 

@@ -9,11 +9,34 @@ const repositoryUserGroups = require("../models/UserGroups")
 
 const groupService = {
 
-    store: async function(req, res){
+    
+    /**
+     * isNone       :verifica se o valor do campo é vazio ou invalido
+     * 
+     * parametros   :campo do formulario
+     * retorno      :true ou false
+     */
+    isNone: function(pField){
+        if(!pField || typeof pField == undefined || pField == null){
+            return true;
+        }
+
+        return false;
+    },
+    
+    
+    
     /*Funcao - Cadastrar os grupos
      *Parametro - dados do grupo
      *retorno - objeto contendo o feedback 
      */
+
+    store: async function(req, res){
+
+        let name            = req.body.name;
+        let user_id         = req.body.user_id;
+        let institution_id  = req.body.institution_id;
+
 
         var feedback = {
         // objeto que mostra o feedback da operacap
@@ -26,21 +49,44 @@ const groupService = {
             data:""
         }
 
-        await repository.create({
-            name            :req.body.name,
-            user_id         :req.body.user_id,
-            institution_id  :req.body.institution_id
-        }).then(function(){
-            feedback.success = true;
-        }).catch(function(answer){
-            feedback.issue.exception    = true;
-            feedback.success            = false;
-            feedback.data               = answer
-        })
+
+        // Se o campo nome do grupo estiver em branco ou invalido a flag de erros é setada e
+        // a descricao do erro é adicionada ao objto
+
+        if(this.isNone(name)){
+            feedback.issue.validation = true;
+            feedback.erros.push({texto: "Nome "})
+        }
+
+        if(!user_id){
+            feedback.issue.validation = true;
+            feedback.erros.push({texto: "Usuario "})
+        }
+
+        if(!institution_id){
+            feedback.issue.validation = true;
+            feedback.erros.push({texto: "Instituicao "})
+        }
+
+
+        // Se nao houver erros, o cadastro dos dados é executado
+        // Em caso de erros as flags sao setadas e as mensagens de erro adicionadas
+        if(feedback.erros.length == 0){
+
+            await repository.create({
+                name            :name,
+                user_id         :user_id,
+                institution_id  :institution_id
+            }).then(function(){
+                feedback.success = true;
+            }).catch(function(answer){
+                feedback.issue.exception    = true;
+                feedback.success            = false;
+                feedback.data               = answer
+            })
+        }
 
         return feedback;
-        
-        
     },
 
 
@@ -144,7 +190,7 @@ const groupService = {
 
         // procura um determinado grupo
         // se conseguir, procura todos os usuarios cadastrados
-        // em caso de excecao, os dados da mesma sao retornados
+        // em caso de excecao, os dados dela sao retornados
         await repository.findOne({
             where:{
                 id: pGroupId
@@ -196,12 +242,14 @@ const groupService = {
         let fInstitutions;  // instituicoes cadastradas
 
         // buscando todos os usuarios...
+        // se a busca por usuarios funcionar, é feita a busca pelas instituições
+        // se alguma das buscas falhar é feito um alerta no console
         await userTemp.findAll({
             attributes: ['id','name'],
         })
         .then(function(users){
             fUsers = users;
-        // se a busca por usuarios funcionar, é feita a busca pelas instituições
+        
             return instTemp.findAll({
                 attributes: ['id','name']
             })
@@ -209,7 +257,7 @@ const groupService = {
         .then(function(institutions){
             fInstitutions = institutions
         })
-        // se alguma das buscas falhar é feito um alerta no console
+        
         .catch(function(error){
             console.log("Houve um erro interno: loadDataSelect " + error)
         })
@@ -260,6 +308,48 @@ const groupService = {
     },
 
 
+    /**
+     * Metodo       :groupData
+     *              -> retornar os dados do grupo
+     * parametro    :id da instituição
+     * retorno      :objeto que contem o resultado da operação
+     */
+
+    groupData: async function(pGroupId){
+        let fException = false; // flag para a ocorrencia de excecoes
+        let fData;              // dados do grupo
+
+        // Se o grupo for encontrado, os dados dela sao armazenados na variavel fData
+        // Se ocorrer excecao, fData recebe a excecao encontrada e a flag de excecao(fException) é setada
+        await repository.findOne({
+            where:{
+                id: pGroupId
+            },
+
+            // inclui o usuario responsavel e a instituição
+            include:[{
+                model: userTemp,
+                required: true,
+                attributes: ['name']
+            },{
+                model: instTemp,
+                required: true,
+                attributes: ['name']
+            }],
+        }).then(function(answer){
+            fData = answer;
+        }).catch(function(error){
+            fData = error;
+            fException = true;
+        })
+
+        return{
+            exception: fException,
+            data: fData
+        }
+    },
+
+
     /*
         Metodo      :searchByInstitution
         Funcao      :Fazer a busca de grupos que fazem parte de uma instituição
@@ -296,8 +386,66 @@ const groupService = {
     },
 
 
-    update: function(){
-        return true;
+
+    /*Funcao    - Atualizar os grupos
+     *Parametro - dados do grupo
+     *retorno   - objeto contendo o feedback da atualização
+     */
+    update:async function(req){
+
+        let name            = req.body.name;
+        let id              = req.body.id;
+        let user_id         = req.body.user_id;
+        let institution_id  = req.body.institution_id;
+
+
+        // objeto que mostra o feedback da operacap
+        var feedback = {
+                erros:[],
+                success: false,
+                issue:{
+                    exception   :false,
+                    validation  :false
+                },
+                data:""
+        }
+
+        // Se o campo nome do grupo estiver em branco ou invalido a flag de erros é setada e
+        // a descricao do erro é adicionada ao objto
+
+        if(this.isNone(name)){
+            feedback.issue.validation = true;
+            feedback.erros.push({texto: "Nome invalido ou em branco"})
+        }
+
+        // Se nao houver erros, a atualizacao de dados é executada
+        // Em caso de erros as flags sao setadas e as mensagens de erro adicionadas
+        if(feedback.erros.length == 0){
+        
+            await repository.findOne({
+
+                where:{
+                    id: Number.parseInt(id)
+                }
+            })
+            .then(function(answer){
+                answer.name             = name
+                answer.user_id          = user_id
+                answer.institution_id   = institution_id
+                return answer.save()
+            })
+            .then(function(group){
+                feedback.success = true;
+                feedback.data = group;
+            })
+            .catch(function(answer){
+                feedback.issue.validation = true;
+                feedback.issue.exception = true;
+                feedback.erros += "Erro interno: exception - " + answer;
+            })
+        }
+        
+        return feedback;
     },
 
 

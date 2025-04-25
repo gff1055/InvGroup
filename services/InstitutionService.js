@@ -177,7 +177,7 @@ const institutionService = {
 
         if(this.isNone(req.body.name)){
             feedback.issue.validation = true;
-            feedback.erros.push({texto: "Nome invalido"})
+            feedback.erros.push({texto: "Nome"})
         }
 
         // Se nao houver erros, a atualizacao de dados é executada
