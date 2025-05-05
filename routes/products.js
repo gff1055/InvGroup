@@ -1,14 +1,11 @@
 
 const express = require("express");
 const router = express.Router({ mergeParams: true }); // mergeParams garante acesso ao parâmetro ':id' da rota pai
-//const productsController = require("../controllers/ProductsController");
+const productsController = require("../controllers/ProductsController");
 
-
-/*const express = require("express")
-const router = express.Router()*/
-
+// rota inicial
 router.get('/', function(req, res){
-    res.send("pagina principal GET de product de instituition")
+    productsController.index(req, res)
 })
 
 router.post('/', function(req, res){
