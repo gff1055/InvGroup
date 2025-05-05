@@ -1,6 +1,10 @@
+
 const express = require("express")
 const router = express.Router()
+
 const institutionController = require("../controllers/InstitutionsController")
+
+const productsRoutes = require("../routes/product");    // Importa as rotas de produtos
 
 // rota inicial
 router.get('/', function(req, res){institutionController.index(req, res)})
@@ -15,6 +19,10 @@ router.post('/delete', function(req, res){institutionController.destroy(req, res
 router.get('/:id/edit', function(req, res){institutionController.edit(req, res)})
 
 router.post('/:id/edit', function(req, res){institutionController.update(req, res)})
+
+
+// Rotas de produtos no escopo de uma instituição
+router.use("/:id/product", productsRoutes);
 
 
 

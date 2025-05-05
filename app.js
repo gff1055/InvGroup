@@ -124,7 +124,7 @@ app.post('/login', (req, res) => {
 
 app.use('/admin', admin)
 app.use('/user', user)
-app.use('/institution/product', product)
+//app.use('/institution/product', product)
 app.use('/institution', institution)
 app.use('/group', group)
 app.use('/moviment', moviment)
