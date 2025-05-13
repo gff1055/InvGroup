@@ -32,6 +32,49 @@
         {{else}}
         {{/each}}
 
+        <form method="post", class="form-padrao">
+            <div class="row">
+
+                <div class="col-6">
+                    <label>
+                        <span>Nome do produto</span>
+                        <input type="text" name="name" placeholder="Nome do produto">
+                    </label>
+                </div>
+
+                <div class="col-6">
+                    <label>
+                        <span>Descrição</span>
+                        <input type="text" name="description" placeholder="Descricao">
+                    </label>
+                </div>
+
+                <div class="w-100"></div>
+
+                <div class="col-6">
+                    <label>
+                        <span>Indexador</span>
+                        <input type="text" name="index" placeholder="Indexador">
+                    </label>
+                </div>
+
+                <div class="col-6">
+                    <label>
+                        <span>Taxa de juros</span>
+                        <input type="text" name="interest_rate" placeholder="Taxa de juros">
+                    </label>
+                </div>
+
+                <div class="w-100"></div>
+
+                <div class="col-6">
+                    <label class="submit">
+                    <input type="submit" value="Cadastrar">
+                    </label>            
+                </div>
+            </div>
+        </form>
+
 
     </div>
 </div>

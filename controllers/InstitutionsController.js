@@ -13,7 +13,6 @@ const institutionController = {
         // funcao que retorna todos os dados
         institutionService.allData()
         .then(function(institutions){
-            console.log(institutions);
             res.render("institution/index", {institutions: institutions})
         })
 

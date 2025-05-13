@@ -22,7 +22,7 @@ router.post('/:id/edit', function(req, res){institutionController.update(req, re
 
 
 // Rotas de produtos no escopo de uma instituição
-router.use("/:id/products", productsRoutes);
+router.use("/:id/product", productsRoutes);
 
 
 

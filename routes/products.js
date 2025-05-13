@@ -9,7 +9,7 @@ router.get('/', function(req, res){
 })
 
 router.post('/', function(req, res){
-    res.send("pagina principal POST de product de instituition")
+    productsController.store(req, res)
 })
 
 router.get('/create', function(req, res){
