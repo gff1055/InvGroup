@@ -69,7 +69,7 @@ const productService = {
         }
 
         // Se nao houver erros, o cadastro do produto é executado
-        // Em caso de excecao as flags sao setadas e as mensagens de excecao adicionada
+        // Em caso de excecao as flags sao setadas e as mensagens de excecao adicionadas
         if(feedback.erros.length == 0){
 
             await productsRepository.create({
@@ -92,6 +92,30 @@ const productService = {
         }
 
         return feedback;
+    },
+
+
+
+    /**Funcao - Exibir todas as instituicões cadastradas
+     * retorno - objeto contendo todas as instituicoes
+     */
+    allData: async function(institutionId){
+    
+
+        let products;
+
+        // Executa a busca pelos produtos de uma instituição, retornando-os se os achar
+        await productsRepository.findAll({
+            where:{
+                institution_id: institutionId
+            },
+        })
+        .then(function(answer){
+            products = answer;
+        })
+        
+        return products;
+
     },
 
 };

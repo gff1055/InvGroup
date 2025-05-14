@@ -11,9 +11,13 @@ const productsController = {
         falha: exibe uma mensagem e redireciona
     */
     index: function(req, res){
-        res.render("institution/products/index");
+        
+        // funcao que retorna todos os dados
+        productService.allData(req.params.id)
+        .then(function(products){
+            res.render("institution/products/index");
+        })
     },
-
 
 
     /*
