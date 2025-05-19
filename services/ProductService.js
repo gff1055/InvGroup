@@ -96,8 +96,8 @@ const productService = {
 
 
 
-    /**Funcao - Exibir todas as instituicões cadastradas
-     * retorno - objeto contendo todas as instituicoes
+    /**Funcao - Exibir todas os produtos cadastradoe de uma instituição
+     * retorno - objeto contendo todos os produtos
      */
     allData: async function(institutionId){
     

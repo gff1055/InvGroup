@@ -74,6 +74,41 @@
                 </div>
             </div>
         </form>
+        {{#if products}}
+        <table class="default-table">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>Nome</td>
+                    <td>Descricao</td>
+                    <td>Indexador</td>
+                    <td>Taxa</td>
+                    <td>Opções</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each products}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{name}}</td>
+                        <td>{{description}}</td>
+                        <td>{{index}}</td>
+                        <td>{{interest_rate}}</td>
+                        <td>
+                            <form action="/products/delete" method="post">
+                                <input type="hidden" name="id" value={{id}}>
+                                <button>Remover</button>
+                            </form>
+                            <a href="products/{{id}}/edit">Editar</a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+            Nao ha produtos cadastrados para esta instituição
+        {{/if}}
 
 
     </div>
