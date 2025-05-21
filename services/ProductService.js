@@ -20,6 +20,7 @@ const productService = {
     },
 
 
+
     /*Funcao - Cadastrar o produto
      *Parametro - dados do produto
      *retorno - objeto contendo o feedback 
@@ -118,9 +119,37 @@ const productService = {
 
     },
 
+
+
+    /**
+     * Funcao - excluir o produto de uma instituição
+     * parametro - dados da instituicao a ser excluida
+     * retorno - objeto feedback com o resultado da operacao
+     */
+    destroy: async function(product_id){
+
+        let feedback = {    // Objeto que retorna o resultado da exclusao
+            erros: [],
+            success: false,
+            exception: false
+        }
+
+        // objeto é excluido...
+        // havendo sucesso ou falha na exclusao, a flag respectiva(success ou exception) é acionada
+        await productsRepository.destroy({
+            where:{
+                'id': product_id
+            }
+        })
+        .then(function(){
+            feedback.success = true;
+        })
+        .catch(function(erro){
+            feedback.exception = true;
+        })
+        return feedback
+    },
 };
-
-
 
 module.exports = productService;
 

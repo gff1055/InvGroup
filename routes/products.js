@@ -12,6 +12,10 @@ router.post('/', function(req, res){
     productsController.store(req, res)
 })
 
+router.post('/delete', function(req, res){
+    productsController.destroy(req, res);
+})
+
 router.get('/create', function(req, res){
     res.send("pagina GET de /create de product de institution")
 })

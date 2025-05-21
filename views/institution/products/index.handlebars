@@ -96,7 +96,7 @@
                         <td>{{index}}</td>
                         <td>{{interest_rate}}</td>
                         <td>
-                            <form action="/products/delete" method="post">
+                            <form action="/institution/{{institution_id}}/product/delete" method="post">
                                 <input type="hidden" name="id" value={{id}}>
                                 <button>Remover</button>
                             </form>

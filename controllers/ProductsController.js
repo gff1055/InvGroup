@@ -57,6 +57,39 @@ const productsController = {
             }
         })
     },
+
+
+
+
+    /*Metodo    :destroy
+    Objetivo    :excluir o produto de uma instituição no banco de dados
+    Parametros  :requisicao e resposta
+    Retorno
+                :em caso de sucesso retorna mensagem de instituição excluida
+                :em caso de falha retorna indicando o erro
+     */
+
+    destroy: function(req, res){
+
+        let product_id = req.body.id;
+        
+        // chamando funcao para excluir o usuario
+        productService.destroy(product_id)
+        .then(function(answer){
+
+            // Se houve falha na exclusao, a pagina é renderizada novamente indicando o erro
+            if(answer.success != true){
+                req.flash("error_msg", "Erro ao excluir o produto tente novamente")
+                res.redirect("/institution/" + req.params.id + "/product")
+            }
+
+            // Se houver sucesso, a mensagem é exibida
+            else{
+                req.flash("success_msg", "Produto excluido")
+                res.redirect("/institution/" + req.params.id + "/product")
+            }
+        })
+    },
 }
 
 module.exports = productsController;
