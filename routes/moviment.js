@@ -3,10 +3,14 @@ const express = require("express")
 const router = express.Router()
 
 
+const movimentsController = require("../controllers/MovimentsController")
 
-router.get('/', function(req, res){
-    res.send("pagina principal GET de todas as movimentacoes")
-})
+
+
+
+// rota inicial
+router.get('/', function(req, res){movimentsController.application(req, res)})
+
 
 router.post('/', function(req, res){
     res.send("pagina principal POST de da movimentacao")
